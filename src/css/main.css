@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "TASA Orbiter";
+  src: url("./TASAOrbiterVF.woff2");
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: "Tasa Orbiter";
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  margin-left: 8px;
+  padding: 2px;
+  border: 1px solid #fff;
+  background-color: #111;
+  color: #ccc;
+}
+
+.inline {
+  display: inline-block;
+  margin: 0;
+}
+
+.group {
+  display: block;
+}
+
+.subgroup {
+  display: flex;
+  padding: 4px;
+  margin-bottom: 8px;
+  width: 50%;
+}
+
+.push-right {
+  margin-right: 20%;
+}
+
+.amount {
+  font-style: italic;
+  margin-left: 5%;
+  color: #777;
+}
