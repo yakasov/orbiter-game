@@ -1,14 +1,36 @@
-var counters = [0];
+class Tier1 {
+  constructor() {
+    this.counters = [
+      { n: "counter1_amount", a: new Decimal(0) },
+      { n: "counter2_amount", a: new Decimal(0) },
+    ];
+  }
 
-function increaseCounter(c) {
-  counters[c - 1] += 1;
+  increaseCounter(c) {
+    this.counters[c - 1].a = this.counters[c - 1].a.plus(1);
+  }
+
+  updateCounters() {
+    this.counters.forEach((c) => {
+      const el = document.getElementById(c.n);
+      el.innerText = c.a;
+    });
+  }
+
+  loop() {}
 }
 
-function updateCounters() {
-  const counter1 = document.getElementById("counter1_amount");
-  if (counter1) {
-    counter1.innerText = counters[0];
+class GameLoop {
+  constructor() {
+    this.t1 = new Tier1();
+  }
+
+  main() {
+    setInterval(() => {
+      this.t1.updateCounters().bind(this);
+    }, 10);
   }
 }
 
-setInterval(updateCounters, 10);
+let gl = new GameLoop();
+gl.main();
