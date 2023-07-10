@@ -26,27 +26,54 @@ button {
 }
 
 .inline {
-  display: inline-block;
   margin: 0;
 }
 
 .group {
-  display: block;
+  width: 33%;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .subgroup {
   display: flex;
-  padding: 4px;
-  margin-bottom: 8px;
-  width: 50%;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stat-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 32px;
 }
 
 .push-right {
-  margin-right: 20%;
+  margin-right: 10%;
 }
 
 .amount {
   font-style: italic;
-  margin-left: 5%;
-  color: #777;
+  /* margin-left: 5%; */
+}
+
+.producing {
+  font-style: italic;
+  margin-top: 0;
+  line-height: 0;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.dark-grey {
+  color: #777
+}
+
+.glow {
+  text-shadow: 0px 1px 8px #ccc
 }

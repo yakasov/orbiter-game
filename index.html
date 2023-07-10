@@ -16,16 +16,33 @@
 
   <body>
     <h1>Orbiter Game</h1>
-    <h2 class="center" id="mainBalance">You have no atoms. Go collect some!</h2>
-
+    <h2 class="center" id="mainBalance">You have no matter. Go collect some!</h2>
+    <p class="center grey producing" id="producingBalance"></p>
     <div class="group">
-      <h2>Text</h2>
+      <h2>Atomic Level</h2>
 
-      <div class="subgroup">
-        <p class="inline push-right">First Button</p>
-        <button onclick="gl.t1.increaseCounter(1)">Click!</button>
-        <button onclick="gl.t1.updateCounters()">Click!</button>
-        <p class="inline amount" id="counter1_amount">0</p>
+      <!-- Quark Gatherers (T1.C1) -->
+      <div id="t1_c1g">
+        <div class="subgroup">
+          <p class="inline push-right">Quark Gatherers</p>
+          <button id="t1_c1b" onclick="gl.t1.buyAtomic(0)">Buy 1 Quark Gatherer for 0</button>
+        </div>
+        <div class="stat-group">
+          <p class="inline amount grey glow" style="margin-left: 0" id="t1_c1a">0</p>
+          <p class="inline amount grey glow" id="t1_c1p">0</p>
+        </div>
+      </div>
+
+      <!-- Hadron Hunters (T1.C2) -->
+      <div id="t1_c2g" style="display: none">
+        <div class="subgroup">
+          <p class="inline push-right">Hadron Hunters</p>
+          <button id="t1_c2b" onclick="gl.t1.buyAtomic(1)">Buy 1 Hadron Hunter for 0</button>
+        </div>
+        <div class="stat-group">
+          <p class="inline amount grey glow" style="margin-left: 0" id="t1_c2a">0</p>
+          <p class="inline amount grey glow" id="t1_c2p">0</p>
+        </div>
       </div>
     </div>
   </body>
