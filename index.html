@@ -20,38 +20,77 @@
       You have no matter. Go collect some!
     </h2>
     <p class="center grey producing" id="producingBalance"></p>
-    <div class="group">
-      <h2>Atomic Level</h2>
 
-      <!-- Quark Gatherers (T1.C1) -->
-      <div id="t1_c1g">
-        <div class="subgroup">
-          <p class="inline push-right">Quark Gatherers</p>
-          <button id="t1_c1b" onclick="gl.t1.buyAtomic(0)">
-            Buy 1 Quark Gatherer for 0
-          </button>
+    <!-- Atomic Tab -->
+    <div class="tab" id="atomic">
+      <!-- Atomic Producers -->
+      <div class="group left-group" id="atomic_producers">
+        <h2>Atomic Level</h2>
+
+        <!-- Quark Gatherers (T1.C1) -->
+        <div id="t1_c1pg">
+          <div class="subgroup">
+            <p class="inline push-right">Quark Gatherers</p>
+            <button id="t1_c1pb" onclick="gl.t1.buyProd(0)">
+              Buy 1 Quark Gatherer for 0
+            </button>
+          </div>
+          <div class="stat-group">
+            <p
+              class="inline amount grey glow"
+              style="margin-left: 0"
+              id="t1_c1pa"
+            >
+              0
+            </p>
+            <p class="inline amount grey glow" id="t1_c1pp">0</p>
+          </div>
         </div>
-        <div class="stat-group">
-          <p class="inline amount grey glow" style="margin-left: 0" id="t1_c1a">
-            0
-          </p>
-          <p class="inline amount grey glow" id="t1_c1p">0</p>
+
+        <!-- Hadron Hunters (T1.C2) -->
+        <div id="t1_c2pg" class="hidden">
+          <div class="subgroup">
+            <p class="inline push-right">Hadron Hunters</p>
+            <button id="t1_c2pb" onclick="gl.t1.buyProd(1)">
+              Buy 1 Hadron Hunter for 0
+            </button>
+          </div>
+          <div class="stat-group">
+            <p
+              class="inline amount grey glow"
+              style="margin-left: 0"
+              id="t1_c2pa"
+            >
+              0
+            </p>
+            <p class="inline amount grey glow" id="t1_c2pp">0</p>
+          </div>
         </div>
       </div>
+      <div class="group"></div>
 
-      <!-- Hadron Hunters (T1.C2) -->
-      <div id="t1_c2g" style="display: none">
-        <div class="subgroup">
-          <p class="inline push-right">Hadron Hunters</p>
-          <button id="t1_c2b" onclick="gl.t1.buyAtomic(1)">
-            Buy 1 Hadron Hunter for 0
-          </button>
-        </div>
-        <div class="stat-group">
-          <p class="inline amount grey glow" style="margin-left: 0" id="t1_c2a">
-            0
-          </p>
-          <p class="inline amount grey glow" id="t1_c2p">0</p>
+      <!-- Atomic Upgrades -->
+      <div class="group right-group" id="atomic_upgrades">
+        <h2>Atomic Upgrades</h2>
+
+        <!-- Quark Gatherers (T1.C1) -->
+        <div id="t1_u1g" class="hidden">
+          <div class="subgroup">
+            <button id="t1_u1b" class="push-right" onclick="gl.t1.buyProd(0)">
+              Quark Upgrade Button
+            </button>
+            <p class="inline">Quark Upgrade</p>
+          </div>
+          <div class="stat-group">
+            <p
+              class="inline amount grey glow"
+              style="margin-left: 0"
+              id="t1_u1a"
+            >
+              0
+            </p>
+            <p class="inline amount grey glow" id="t1_u1p">0</p>
+          </div>
         </div>
       </div>
     </div>
