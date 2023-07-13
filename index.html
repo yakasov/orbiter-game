@@ -16,23 +16,28 @@
 
   <body>
     <h1>Orbiter Game</h1>
-    <h2 class="center" id="mainBalance">
-      You have no matter. Go collect some!
-    </h2>
+    <h2 class="center" id="mainBalance"></h2>
     <p class="center grey producing" id="producingBalance"></p>
 
-    <!-- Atomic Tab -->
-    <div class="tab" id="atomic">
-      <!-- Atomic Producers -->
-      <div class="group left-group" id="atomic_producers">
-        <h2>Atomic Level</h2>
+    <div class="tab-bar" id="tab-bar">
+      <button class="tab-button">Periods 1 - 2</button>
+      <button class="tab-button">B</button>
+      <button class="tab-button">C</button>
+      <button class="tab-button">Settings</button>
+    </div>
 
-        <!-- Quark Gatherers (T1.C1) -->
+    <!-- Period 1-2 Tab -->
+    <div class="tab" id="period12">
+      <!-- Period 1-2 Producers -->
+      <div class="group left-group" id="period12_producers">
+        <h2>Periods 1 and 2</h2>
+
+        <!-- Hydrogen Gatherers (T1.C1) -->
         <div id="t1_c1pg">
           <div class="subgroup">
-            <p class="inline push-right">Quark Gatherers</p>
+            <p class="inline push-right">Hydrogen Gatherers</p>
             <button id="t1_c1pb" onclick="gl.t1.buyProd(0)">
-              Buy 1 Quark Gatherer for 0
+              Buy 1 Hydrogen Gatherer for 0
             </button>
           </div>
           <div class="stat-group">
@@ -47,12 +52,12 @@
           </div>
         </div>
 
-        <!-- Hadron Hunters (T1.C2) -->
+        <!-- Helium Hunters (T1.C2) -->
         <div id="t1_c2pg" class="hidden">
           <div class="subgroup">
-            <p class="inline push-right">Hadron Hunters</p>
+            <p class="inline push-right">Helium Hunters</p>
             <button id="t1_c2pb" onclick="gl.t1.buyProd(1)">
-              Buy 1 Hadron Hunter for 0
+              Buy 1 Helium Hunter for 0
             </button>
           </div>
           <div class="stat-group">
@@ -69,11 +74,11 @@
       </div>
       <div class="group"></div>
 
-      <!-- Atomic Upgrades -->
-      <div class="group right-group" id="atomic_upgrades">
-        <h2>Atomic Upgrades</h2>
+      <!-- Period 1-2 Upgrades -->
+      <div class="group right-group" id="period12_upgrades">
+        <h2>Period 1-2 Upgrades</h2>
 
-        <!-- Quark Gatherers (T1.C1) -->
+        <!-- Hydrogen Gatherers (T1.C1) -->
         <div id="t1_u1g" class="hidden">
           <div class="subgroup">
             <button
@@ -83,7 +88,7 @@
             >
               Buy Upgrade for 250
             </button>
-            <p class="inline">Quark Gatherers Coffee Breaks</p>
+            <p class="inline">Hydrogen Gatherers Coffee Breaks</p>
           </div>
           <div class="stat-group">
             <p
@@ -91,7 +96,7 @@
               style="margin-left: 0"
               id="t1_u1p"
             >
-              2x Quark Gatherers
+              2x Hydrogen Gatherers speed
             </p>
             <p class="inline amount grey glow" id="t1_u1a">
               Motivate your little gatherers

@@ -2,7 +2,7 @@ class Prod {
   constructor(id, trans, costStart, costScale, produces) {
     this.n = id;
     this.a = new Decimal(0);
-    this.t = `${trans.split(" ")[0].toLowerCase()}s`;
+    this.t = `${trans.split(" ")[1].toLowerCase()}s`;
     this.ft = trans;
     this.cf = new Decimal(costStart);
     this.cn = new Decimal(0);
@@ -27,11 +27,11 @@ class Upgrade {
 class Tier1 {
   constructor() {
     this.prods = [
-      new Prod("t1_c1p", "Quark Gatherer", 10, 1.15, 2),
-      new Prod("t1_c2p", "Hadron Hunter", 100, 1.15, 10),
+      new Prod("t1_c1p", "Hydrogen Gatherer", 10, 1.18, 2),
+      new Prod("t1_c2p", "Helium Hunter", 100, 1.12, 10),
     ];
     this.upgrades = [
-      new Upgrade("t1_u1", "t1_c1p", "Gatherer Magnets", 250, (p) => {
+      new Upgrade("t1_u1", "t1_c1p", "Hydrogen Coffee Breaks", 250, (p) => {
         return p.mul(2);
       }),
     ];
@@ -60,7 +60,7 @@ class Tier1 {
     }
   }
 
-  updateAtomicInternals(c) {
+  updatePeriod12Internals(c) {
     c.cn = c.a
       .add(c.a.add(1).mul(c.cf))
       .sub(c.cf)
@@ -80,7 +80,7 @@ class Tier1 {
       });
   }
 
-  updateAtomicDisplays(c) {
+  updatePeriod12Displays(c) {
     const ela = document.getElementById(`${c.n}a`); // amount eg '12 quarks'
     const elb = document.getElementById(`${c.n}b`); // button string
     const elg = document.getElementById(`${c.n}g`); // group for visibility
@@ -106,7 +106,7 @@ class Tier1 {
     }
   }
 
-  updateAtomicUpgradeDisplays(u) {
+  updatePeriod12UpgradeDisplays(u) {
     const elg = document.getElementById(`${u.n}g`); // group for visibility
 
     if (elg) {
@@ -124,12 +124,12 @@ class Tier1 {
   updateLoop() {
     var p = new Decimal(0);
     this.prods.forEach((c) => {
-      this.updateAtomicInternals(c);
-      this.updateAtomicDisplays(c);
+      this.updatePeriod12Internals(c);
+      this.updatePeriod12Displays(c);
       p = p.add(c.pn);
     });
     this.upgrades.forEach((u) => {
-      this.updateAtomicUpgradeDisplays(u);
+      this.updatePeriod12UpgradeDisplays(u);
     });
     this.producing = p;
   }
