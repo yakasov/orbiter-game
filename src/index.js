@@ -4,7 +4,7 @@ class Prod {
     this.a = new Decimal(0);
     this.t = `${trans.split(" ")[0].toLowerCase()}s`;
     this.ft = trans;
-    this.cf = costStart;
+    this.cf = new Decimal(costStart);
     this.cn = new Decimal(0);
     this.cs = costScale;
     this.pf = new Decimal(produces);
@@ -14,12 +14,12 @@ class Prod {
 
 class Upgrade {
   constructor(id, np, trans, cost, bonus) {
-    this.n = id;
-    this.np = np;
-    this.b = false;
-    this.a = false;
+    this.n = id; // upgrade el id
+    this.np = np; // related prod el id
+    this.b = false; // bought
+    this.a = false; // applied
     this.ft = trans;
-    this.c = cost;
+    this.c = new Decimal(cost);
     this.p = bonus;
   }
 }
@@ -31,8 +31,8 @@ class Tier1 {
       new Prod("t1_c2p", "Hadron Hunter", 100, 1.15, 10),
     ];
     this.upgrades = [
-      new Upgrade("t1_u1", "t1_c1p", "Gatherer Magnets", 20, (p) => {
-        return p * 2;
+      new Upgrade("t1_u1", "t1_c1p", "Gatherer Magnets", 250, (p) => {
+        return p.mul(2);
       }),
     ];
     this.producing = 0;
@@ -51,6 +51,12 @@ class Tier1 {
     if (gl.ec.balance.gte(u.c)) {
       u.b = true;
       gl.ec.removeFromBalance(u.c);
+      const elub = document.getElementById(`${u.n}b`);
+      if (elub) {
+        elub.innerText = "Bought!";
+        elub.classList.add("disabled");
+        elub.setAttribute("disabled", true);
+      }
     }
   }
 
@@ -81,7 +87,7 @@ class Tier1 {
     const elp = document.getElementById(`${c.n}p`); // producing eg '50 matter /s'
 
     if (elg) {
-      if (elg.classList.contains("hidden") && gl.ec.balance.gte(c.cf)) {
+      if (elg.classList.contains("hidden") && gl.ec.balance.gte(c.cf.div(2))) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
       }
@@ -102,7 +108,6 @@ class Tier1 {
 
   updateAtomicUpgradeDisplays(u) {
     const elg = document.getElementById(`${u.n}g`); // group for visibility
-    console.warn(elg);
 
     if (elg) {
       if (elg.classList.contains("hidden") && gl.ec.balance.gte(u.c.div(2))) {
@@ -123,16 +128,16 @@ class Tier1 {
       this.updateAtomicDisplays(c);
       p = p.add(c.pn);
     });
-    // this.upgrades.forEach((u) => {
-    //   this.updateAtomicUpgradeDisplays(u);
-    // });
+    this.upgrades.forEach((u) => {
+      this.updateAtomicUpgradeDisplays(u);
+    });
     this.producing = p;
   }
 }
 
 class Economy {
   constructor() {
-    this.balance = new Decimal(10);
+    this.balance = new Decimal(10000);
   }
 
   addToBalance(a) {

@@ -87,6 +87,12 @@ button {
   visibility: hidden;
 }
 
+.disabled {
+  border: 1px solid #aaa;
+  background-color: #111;
+  color: #777;
+}
+
 @keyframes fade-out {
   0% {
     opacity: 1;
