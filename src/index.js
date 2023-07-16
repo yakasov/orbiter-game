@@ -1,29 +1,3 @@
-class Prod {
-  constructor(id, trans, costStart, costScale, produces) {
-    this.n = id;
-    this.a = new Decimal(0);
-    this.t = `${trans.split(" ")[1].toLowerCase()}s`;
-    this.ft = trans;
-    this.cf = new Decimal(costStart);
-    this.cn = new Decimal(0);
-    this.cs = costScale;
-    this.pf = new Decimal(produces);
-    this.pn = new Decimal(0);
-  }
-}
-
-class Upgrade {
-  constructor(id, np, trans, cost, bonus) {
-    this.n = id; // upgrade el id
-    this.np = np; // related prod el id
-    this.b = false; // bought
-    this.a = false; // applied
-    this.ft = trans;
-    this.c = new Decimal(cost);
-    this.p = bonus;
-  }
-}
-
 class Tier1 {
   constructor() {
     this.prods = [

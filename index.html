@@ -11,10 +11,11 @@
 
     <title>Orbiter Game</title>
     <script src="./src/js/break_eternity.js"></script>
+    <script src="./src/js/loader.js"></script>
     <script src="./src/index.js"></script>
   </head>
 
-  <body>
+  <body id="body">
     <h1>Orbiter Game</h1>
     <h2 class="center" id="mainBalance"></h2>
     <p class="center grey producing" id="producingBalance"></p>
@@ -24,86 +25,6 @@
       <button class="tab-button">B</button>
       <button class="tab-button">C</button>
       <button class="tab-button">Settings</button>
-    </div>
-
-    <!-- Period 1-2 Tab -->
-    <div class="tab" id="period12">
-      <!-- Period 1-2 Producers -->
-      <div class="group left-group" id="period12_producers">
-        <h2>Periods 1 and 2</h2>
-
-        <!-- Hydrogen Gatherers (T1.C1) -->
-        <div id="t1_c1pg">
-          <div class="subgroup">
-            <p class="inline push-right">Hydrogen Gatherers</p>
-            <button id="t1_c1pb" onclick="gl.t1.buyProd(0)">
-              Buy 1 Hydrogen Gatherer for 0
-            </button>
-          </div>
-          <div class="stat-group">
-            <p
-              class="inline amount grey glow"
-              style="margin-left: 0"
-              id="t1_c1pa"
-            >
-              0
-            </p>
-            <p class="inline amount grey glow" id="t1_c1pp">0</p>
-          </div>
-        </div>
-
-        <!-- Helium Hunters (T1.C2) -->
-        <div id="t1_c2pg" class="hidden">
-          <div class="subgroup">
-            <p class="inline push-right">Helium Hunters</p>
-            <button id="t1_c2pb" onclick="gl.t1.buyProd(1)">
-              Buy 1 Helium Hunter for 0
-            </button>
-          </div>
-          <div class="stat-group">
-            <p
-              class="inline amount grey glow"
-              style="margin-left: 0"
-              id="t1_c2pa"
-            >
-              0
-            </p>
-            <p class="inline amount grey glow" id="t1_c2pp">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="group"></div>
-
-      <!-- Period 1-2 Upgrades -->
-      <div class="group right-group" id="period12_upgrades">
-        <h2>Period 1-2 Upgrades</h2>
-
-        <!-- Hydrogen Gatherers (T1.C1) -->
-        <div id="t1_u1g" class="hidden">
-          <div class="subgroup">
-            <button
-              id="t1_u1b"
-              class="push-right"
-              onclick="gl.t1.buyUpgrade(0)"
-            >
-              Buy Upgrade for 250
-            </button>
-            <p class="inline">Hydrogen Gatherers Coffee Breaks</p>
-          </div>
-          <div class="stat-group">
-            <p
-              class="inline amount grey glow"
-              style="margin-left: 0"
-              id="t1_u1p"
-            >
-              2x Hydrogen Gatherers speed
-            </p>
-            <p class="inline amount grey glow" id="t1_u1a">
-              Motivate your little gatherers
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </body>
 </html>

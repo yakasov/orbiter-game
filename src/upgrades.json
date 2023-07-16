@@ -1,0 +1,16 @@
+[
+  {
+    "tab": 1,
+    "id": "t1_u1",
+    "affects": ["t1_c1p"],
+    "name": "Hydrogen Coffee Breaks",
+    "desc": "2x Hydrogen Gatherers speed",
+    "subdesc": "Motivate your little gatherers",
+    "cost": 250,
+    "bonus": {
+      "type": "produces",
+      "op": "mul",
+      "amount": 2
+    }
+  }
+]

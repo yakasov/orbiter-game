@@ -1,0 +1,20 @@
+[
+  {
+    "tab": 1,
+    "id": "t1_c1p",
+    "name": "Hydrogen Gatherer",
+    "plural": "gatherers",
+    "costStart": 10,
+    "costScale": 1.18,
+    "produces": 2
+  },
+  {
+    "tab": 1,
+    "id": "t1_c2p",
+    "name": "Helium Hunter",
+    "plural": "hunters",
+    "costStart": 100,
+    "costScale": 1.12,
+    "produces": 10
+  }
+]
