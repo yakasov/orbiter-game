@@ -141,4 +141,7 @@ async function loadJson(l) {
     </div>
     `;
   });
+
+  document.getElementById("period12").classList.remove("hidden");
+  document.getElementById("t1_c1pg").classList.remove("hidden");
 })();

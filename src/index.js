@@ -1,31 +1,24 @@
 class Tier1 {
   constructor() {
-    this.prods = [
-      new Prod("t1_c1p", "Hydrogen Gatherer", 10, 1.18, 2),
-      new Prod("t1_c2p", "Helium Hunter", 100, 1.12, 10),
-    ];
-    this.upgrades = [
-      new Upgrade("t1_u1", "t1_c1p", "Hydrogen Coffee Breaks", 250, (p) => {
-        return p.mul(2);
-      }),
-    ];
+    this.producers = producers.filter((p) => p.tab === 1);
+    this.upgrades = upgrades.filter((u) => u.tab === 1);
     this.producing = 0;
   }
 
   buyProd(n) {
-    var p = this.prods[n];
-    if (gl.ec.balance.gte(p.cn)) {
-      p.a = p.a.plus(1);
-      gl.ec.removeFromBalance(p.cn);
+    var p = this.producers[n];
+    if (gl.ec.balance.gte(p.costNow)) {
+      p.amount = p.amount.plus(1);
+      gl.ec.removeFromBalance(p.costNow);
     }
   }
 
   buyUpgrade(n) {
     var u = this.upgrades[n];
-    if (gl.ec.balance.gte(u.c)) {
-      u.b = true;
-      gl.ec.removeFromBalance(u.c);
-      const elub = document.getElementById(`${u.n}b`);
+    if (gl.ec.balance.gte(u.cost)) {
+      u.bought = true;
+      gl.ec.removeFromBalance(u.cost);
+      const elub = document.getElementById(`${u.id}b`);
       if (elub) {
         elub.innerText = "Bought!";
         elub.classList.add("disabled");
@@ -34,57 +27,84 @@ class Tier1 {
     }
   }
 
-  updatePeriod12Internals(c) {
-    c.cn = c.a
-      .add(c.a.add(1).mul(c.cf))
-      .sub(c.cf)
-      .pow(c.cs)
-      .add(c.cf)
+  handleUpgrade(u, p) {
+    p[u.bonus.type] = this.switchUpgrade(p[u.bonus.type], u.bonus);
+    u.applied = true;
+  }
+
+  switchUpgrade(n, o) {
+    switch (o.op) {
+      case "add":
+        return n.add(o.amount);
+      case "sub":
+        return n.sub(o.amount);
+      case "mul":
+        return n.mul(o.amount);
+      case "div":
+        return n.div(o.amount);
+      case "pow":
+        return n.pow(o.amount);
+      case "log":
+        return n.log(o.amount);
+    }
+  }
+
+  updatePeriod12Internals(p) {
+    p.costNow = p.amount
+      .add(p.amount.add(1).mul(p.costFirst))
+      .sub(p.costFirst)
+      .pow(p.costScale)
+      .add(p.costFirst)
       .toFixed(2); // cost scaling
     // currently: (n + ((n + 1) * cf) - cf) ^ cs + cf
     // for t1_c1: (n + ((n + 1) * 10) - 10) ^ 1.15 + 10
     // prices   : 10.00, 25.76, 44.98, 65.76
-    c.pn = c.pf.mul(c.a);
+    p.producesNow = p.producesFirst.mul(p.amount);
 
     this.upgrades
-      .filter((u) => u.np === c.n && u.b && !u.a)
+      .filter((u) => u.affects === p.id && u.bought && !u.applied)
       .forEach((u) => {
-        c.pf = u.p(c.pf);
-        u.a = true;
+        this.handleUpgrade(u, p);
       });
   }
 
-  updatePeriod12Displays(c) {
-    const ela = document.getElementById(`${c.n}a`); // amount eg '12 quarks'
-    const elb = document.getElementById(`${c.n}b`); // button string
-    const elg = document.getElementById(`${c.n}g`); // group for visibility
-    const elp = document.getElementById(`${c.n}p`); // producing eg '50 matter /s'
+  updatePeriod12Displays(p) {
+    const ela = document.getElementById(`${p.id}a`); // amount eg '12 quarks'
+    const elb = document.getElementById(`${p.id}b`); // button string
+    const elg = document.getElementById(`${p.id}g`); // group for visibility
+    const elp = document.getElementById(`${p.id}p`); // producing eg '50 matter /s'
 
     if (elg) {
-      if (elg.classList.contains("hidden") && gl.ec.balance.gte(c.cf.div(2))) {
+      if (
+        elg.classList.contains("hidden") &&
+        gl.ec.balance.gte(p.costFirst.div(2))
+      ) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
       }
     }
 
     if (ela) {
-      ela.innerText = `${c.a} ${c.t}`;
+      ela.innerText = `${p.amount} ${p.plural}`;
     }
 
     if (elb) {
-      elb.innerText = `Buy 1 ${c.ft} for ${c.cn.toString()}`;
+      elb.innerText = `Buy 1 ${p.name} for ${p.costNow.toString()}`;
     }
 
     if (elp) {
-      elp.innerText = `${c.pn.toString()} matter /s`;
+      elp.innerText = `${p.producesNow.toString()} matter /s`;
     }
   }
 
   updatePeriod12UpgradeDisplays(u) {
-    const elg = document.getElementById(`${u.n}g`); // group for visibility
+    const elg = document.getElementById(`${u.id}g`); // group for visibility
 
     if (elg) {
-      if (elg.classList.contains("hidden") && gl.ec.balance.gte(u.c.div(2))) {
+      if (
+        elg.classList.contains("hidden") &&
+        gl.ec.balance.gte(u.cost.div(2))
+      ) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
       }
@@ -96,16 +116,16 @@ class Tier1 {
   }
 
   updateLoop() {
-    var p = new Decimal(0);
-    this.prods.forEach((c) => {
-      this.updatePeriod12Internals(c);
-      this.updatePeriod12Displays(c);
-      p = p.add(c.pn);
+    var pr = new Decimal(0);
+    this.prods.forEach((p) => {
+      this.updatePeriod12Internals(p);
+      this.updatePeriod12Displays(p);
+      pr = pr.add(p.producesNow);
     });
     this.upgrades.forEach((u) => {
       this.updatePeriod12UpgradeDisplays(u);
     });
-    this.producing = p;
+    this.producing = pr;
   }
 }
 

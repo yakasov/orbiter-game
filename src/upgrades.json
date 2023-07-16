@@ -8,7 +8,7 @@
     "subdesc": "Motivate your little gatherers",
     "cost": 250,
     "bonus": {
-      "type": "produces",
+      "type": "producesFirst",
       "op": "mul",
       "amount": 2
     }
