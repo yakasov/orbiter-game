@@ -5,6 +5,7 @@ class Producer {
     this.name = name;
     this.plural = plural;
 
+    this.amount = new Decimal(0);
     this.costStart = new Decimal(costStart);
     this.costNow = new Decimal(0);
     this.costScale = costScale;
@@ -51,11 +52,12 @@ async function loadJson(l) {
   return fetch(l).then((r) => r.json());
 }
 
+var producers = [];
+var upgrades = [];
+
 (async () => {
   const loadedProducers = await loadJson("./src/producers.json");
   const loadedUpgrades = await loadJson("./src/upgrades.json");
-  var producers = [];
-  var upgrades = [];
 
   loadedProducers.forEach((p) => {
     const pr = new Producer(
@@ -107,7 +109,7 @@ async function loadJson(l) {
   <div id="${p.id}g" class="hidden">
     <div class="subgroup">
         <p class="inline push-right">${p.name}s</p>
-        <button id="${p.id}b" onclick="gl.t${p.tab}.buyProd(${i})">
+        <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
             Buy 1 ${p.name} for ${p.costNow}
         </button>
     </div>
@@ -125,7 +127,7 @@ async function loadJson(l) {
     <!-- ${u.name}s -->
     <div id="${u.id}g" class="hidden">
         <div class="subgroup">
-            <button id="${u.id}b" class="push-right" onclick="gl.t${u.tab}.buyUpgrade(${i})">
+            <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
                 Buy Upgrade for ${u.cost}
             </button>
             <p class="inline">${u.name}</p>

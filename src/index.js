@@ -1,11 +1,16 @@
-class Tier1 {
+class Game {
   constructor() {
-    this.producers = producers.filter((p) => p.tab === 1);
-    this.upgrades = upgrades.filter((u) => u.tab === 1);
+    this.producers = [];
+    this.upgrades = [];
     this.producing = 0;
   }
 
-  buyProd(n) {
+  getProducersAndUpgrades() {
+    this.producers = producers;
+    this.upgrades = upgrades;
+  }
+
+  buyProducer(n) {
     var p = this.producers[n];
     if (gl.ec.balance.gte(p.costNow)) {
       p.amount = p.amount.plus(1);
@@ -49,7 +54,7 @@ class Tier1 {
     }
   }
 
-  updatePeriod12Internals(p) {
+  updateGameInternals(p) {
     p.costNow = p.amount
       .add(p.amount.add(1).mul(p.costFirst))
       .sub(p.costFirst)
@@ -68,7 +73,7 @@ class Tier1 {
       });
   }
 
-  updatePeriod12Displays(p) {
+  updateProducerDisplays(p) {
     const ela = document.getElementById(`${p.id}a`); // amount eg '12 quarks'
     const elb = document.getElementById(`${p.id}b`); // button string
     const elg = document.getElementById(`${p.id}g`); // group for visibility
@@ -97,7 +102,7 @@ class Tier1 {
     }
   }
 
-  updatePeriod12UpgradeDisplays(u) {
+  updateUpgradeDisplays(u) {
     const elg = document.getElementById(`${u.id}g`); // group for visibility
 
     if (elg) {
@@ -112,20 +117,25 @@ class Tier1 {
   }
 
   updateBalance() {
+    console.log(this.producing);
     gl.ec.addToBalance(this.producing.div(10));
   }
 
   updateLoop() {
-    var pr = new Decimal(0);
-    this.prods.forEach((p) => {
-      this.updatePeriod12Internals(p);
-      this.updatePeriod12Displays(p);
-      pr = pr.add(p.producesNow);
+    if (this.producers.length == 0 || this.upgrades.length == 0) {
+      this.getProducersAndUpgrades();
+    }
+
+    this.producing = new Decimal(0);
+    this.producers.forEach((p) => {
+      this.updateGameInternals(p);
+      this.updateProducerDisplays(p);
+      this.producing = this.producing.add(p.producesNow);
     });
+
     this.upgrades.forEach((u) => {
-      this.updatePeriod12UpgradeDisplays(u);
+      this.updateUpgradeDisplays(u);
     });
-    this.producing = pr;
   }
 }
 
@@ -162,14 +172,14 @@ class Economy {
 
 class GameLoop {
   constructor() {
-    this.t1 = new Tier1();
+    this.gm = new Game();
     this.ec = new Economy();
   }
 
   main() {
     setInterval(() => {
       try {
-        this.t1.updateLoop().bind(this);
+        this.gm.updateLoop().bind(this);
       } catch {}
     }, 10);
     setInterval(() => {
@@ -180,7 +190,7 @@ class GameLoop {
 
     setInterval(() => {
       try {
-        this.t1.updateBalance().bind(this);
+        this.gm.updateBalance().bind(this);
       } catch {}
     }, 100);
   }
