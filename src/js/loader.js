@@ -1,5 +1,5 @@
 class Producer {
-  constructor(tab, id, name, plural, costStart, costScale, produces) {
+  constructor(tab, id, name, plural, costStart, costScale, produces, reveal) {
     this.tab = tab;
     this.id = id;
     this.name = name;
@@ -11,11 +11,14 @@ class Producer {
     this.costScale = costScale;
     this.producesFirst = new Decimal(produces);
     this.producesNow = new Decimal(0);
+
+    this.revealType = reveal.type;
+    this.revealAmount = reveal.amount;
   }
 }
 
 class Upgrade {
-  constructor(tab, id, affects, name, desc, subdesc, cost, bonus) {
+  constructor(tab, id, affects, name, desc, subdesc, cost, bonus, reveal) {
     this.tab = tab;
     this.id = id;
     this.affects = affects;
@@ -30,6 +33,9 @@ class Upgrade {
     this.bonusType = bonus.type;
     this.bonusOp = bonus.op;
     this.bonusAmount = bonus.amount;
+
+    this.revealType = reveal.type;
+    this.revealAmount = reveal.amount;
   }
 }
 
@@ -67,7 +73,8 @@ var upgrades = [];
       p.plural,
       p.costStart,
       p.costScale,
-      p.produces
+      p.produces,
+      p.reveal
     );
     producers = producers.concat(pr);
   });
@@ -81,7 +88,8 @@ var upgrades = [];
       u.desc,
       u.subdesc,
       u.cost,
-      u.bonus
+      u.bonus,
+      u.reveal
     );
     upgrades = upgrades.concat(up);
   });
@@ -124,26 +132,26 @@ var upgrades = [];
   upgrades.forEach((u, i) => {
     const group = document.getElementById(`${tabs[u.tab].id}_upgrades`);
     group.innerHTML += `
-    <!-- ${u.name}s -->
-    <div id="${u.id}g" class="hidden">
-        <div class="subgroup">
-            <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
-                Buy Upgrade for ${u.cost}
-            </button>
-            <p class="inline">${u.name}</p>
-        </div>
-        <div class="stat-group">
-            <p class="inline amount grey glow" style="margin-left: 0" id="${u.id}p">
-                ${u.desc}
-            </p>
-            <p class="inline amount grey glow" id="${u.id}a">
-                ${u.subdesc}
-            </p>
-        </div>
-    </div>
-    `;
+  <!-- ${u.name}s -->
+  <div id="${u.id}g" class="hidden">
+      <div class="subgroup">
+          <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
+              Buy Upgrade for ${u.cost}
+          </button>
+          <p class="inline">${u.name}</p>
+      </div>
+      <div class="stat-group">
+          <p class="inline amount grey glow" style="margin-left: 0" id="${u.id}p">
+              ${u.desc}
+          </p>
+          <p class="inline amount grey glow" id="${u.id}a">
+              ${u.subdesc}
+          </p>
+      </div>
+  </div>
+  `;
   });
 
   document.getElementById("period12").classList.remove("hidden");
-  document.getElementById("t1_c1pg").classList.remove("hidden");
+  //document.getElementById("t1_c1pg").classList.remove("hidden");
 })();

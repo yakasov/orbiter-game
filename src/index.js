@@ -58,6 +58,23 @@ class Game {
     }
   }
 
+  handleReveal(u, p) {
+    if (p) {
+      const p1 = p.revealType == "balance" ? gl.ec.balance : p.amount;
+      const p2 = p.revealAmount;
+      return p1.gte(p2);
+    }
+
+    if (u) {
+      const up = this.producers.filter((p) => p.id == u.affects[0])[0];
+      const p1 = u.revealType == "balance" ? gl.ec.balance : up.amount;
+      const p2 = u.revealAmount;
+      return p1.gte(p2);
+    }
+
+    return false;
+  }
+
   updateGameInternals(p) {
     p.costNow = p.amount
       .add(p.amount.add(1).mul(p.costStart))
@@ -84,10 +101,7 @@ class Game {
     const elp = document.getElementById(`${p.id}p`); // producing eg '50 matter /s'
 
     if (elg) {
-      if (
-        elg.classList.contains("hidden") &&
-        gl.ec.balance.gte(p.costStart.div(2))
-      ) {
+      if (elg.classList.contains("hidden") && this.handleReveal(null, p)) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
       }
@@ -110,10 +124,7 @@ class Game {
     const elg = document.getElementById(`${u.id}g`); // group for visibility
 
     if (elg) {
-      if (
-        elg.classList.contains("hidden") &&
-        gl.ec.balance.gte(u.cost.div(2))
-      ) {
+      if (elg.classList.contains("hidden") && this.handleReveal(u, null)) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
       }
@@ -144,7 +155,7 @@ class Game {
 
 class Economy {
   constructor() {
-    this.balance = new Decimal(10000);
+    this.balance = new Decimal(10);
   }
 
   addToBalance(a) {

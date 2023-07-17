@@ -5,8 +5,12 @@
     "name": "Hydrogen Gatherer",
     "plural": "gatherers",
     "costStart": 10,
-    "costScale": 1.18,
-    "produces": 2
+    "costScale": 1.08,
+    "produces": 1,
+    "reveal": {
+      "type": "balance",
+      "amount": 0
+    }
   },
   {
     "tab": 1,
@@ -15,6 +19,10 @@
     "plural": "hunters",
     "costStart": 100,
     "costScale": 1.12,
-    "produces": 10
+    "produces": 10,
+    "reveal": {
+      "type": "balance",
+      "amount": 50
+    }
   }
 ]

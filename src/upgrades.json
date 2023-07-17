@@ -6,11 +6,15 @@
     "name": "Hydrogen Coffee Breaks",
     "desc": "2x Hydrogen Gatherers speed",
     "subdesc": "Motivate your little gatherers",
-    "cost": 250,
+    "cost": 200,
     "bonus": {
       "type": "producesFirst",
       "op": "mul",
       "amount": 2
+    },
+    "reveal": {
+      "type": "amount",
+      "amount": 5
     }
   }
 ]
