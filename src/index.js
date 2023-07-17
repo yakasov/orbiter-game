@@ -33,33 +33,37 @@ class Game {
   }
 
   handleUpgrade(u, p) {
-    p[u.bonus.type] = this.switchUpgrade(p[u.bonus.type], u.bonus);
+    p[u.bonusType] = this.switchUpgrade(
+      p[u.bonusType],
+      u.bonusOp,
+      u.bonusAmount
+    );
     u.applied = true;
   }
 
-  switchUpgrade(n, o) {
-    switch (o.op) {
+  switchUpgrade(n, o, a) {
+    switch (o) {
       case "add":
-        return n.add(o.amount);
+        return n.add(a);
       case "sub":
-        return n.sub(o.amount);
+        return n.sub(a);
       case "mul":
-        return n.mul(o.amount);
+        return n.mul(a);
       case "div":
-        return n.div(o.amount);
+        return n.div(a);
       case "pow":
-        return n.pow(o.amount);
+        return n.pow(a);
       case "log":
-        return n.log(o.amount);
+        return n.log(a);
     }
   }
 
   updateGameInternals(p) {
     p.costNow = p.amount
-      .add(p.amount.add(1).mul(p.costFirst))
-      .sub(p.costFirst)
+      .add(p.amount.add(1).mul(p.costStart))
+      .sub(p.costStart)
       .pow(p.costScale)
-      .add(p.costFirst)
+      .add(p.costStart)
       .toFixed(2); // cost scaling
     // currently: (n + ((n + 1) * cf) - cf) ^ cs + cf
     // for t1_c1: (n + ((n + 1) * 10) - 10) ^ 1.15 + 10
@@ -67,7 +71,7 @@ class Game {
     p.producesNow = p.producesFirst.mul(p.amount);
 
     this.upgrades
-      .filter((u) => u.affects === p.id && u.bought && !u.applied)
+      .filter((u) => u.affects.includes(p.id) && u.bought && !u.applied)
       .forEach((u) => {
         this.handleUpgrade(u, p);
       });
@@ -82,7 +86,7 @@ class Game {
     if (elg) {
       if (
         elg.classList.contains("hidden") &&
-        gl.ec.balance.gte(p.costFirst.div(2))
+        gl.ec.balance.gte(p.costStart.div(2))
       ) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
@@ -117,7 +121,6 @@ class Game {
   }
 
   updateBalance() {
-    console.log(this.producing);
     gl.ec.addToBalance(this.producing.div(10));
   }
 
@@ -158,7 +161,7 @@ class Economy {
   }
 
   displayProducing() {
-    const producing = gl.t1.producing;
+    const producing = gl.gm.producing;
 
     const el = document.getElementById("producingBalance");
     el.innerText = `producing ${producing} matter /s`;
