@@ -14,6 +14,7 @@ class Producer {
 
     this.revealType = reveal.type;
     this.revealAmount = reveal.amount;
+    this.revealTime;
   }
 }
 
@@ -36,34 +37,99 @@ class Upgrade {
 
     this.revealType = reveal.type;
     this.revealAmount = reveal.amount;
+    this.revealTime;
   }
 }
 
-const tabs = {
+var tabs = {
   1: {
     id: "period12",
     name: "Periods 1 and 2",
+    hidden: false
   },
   2: {
     id: "period3",
     name: "Period 3",
+    hidden: true
   },
   3: {
     id: "period4",
     name: "Period 4",
+    hidden: true
   },
+  4: {
+    id: "period5",
+    name: "Period 5",
+    hidden: true
+  },
+  5: {
+    id: "period6",
+    name: "Period 6",
+    hidden: true
+  },
+  6: {
+    id: "period7",
+    name: "Period 7",
+    hidden: true
+  },
+  7: {
+    id: "achievements",
+    name: "Achievements",
+    hidden: false
+  },
+  8: {
+    id: "settings",
+    name: "Settings",
+    hidden: false
+  }
 };
 
 async function loadJson(l) {
   return fetch(l).then((r) => r.json());
 }
 
+function getHTML(i) {
+  if (i.id == "achievements") {
+    return `
+    <div class="group center" id="achievements_names">
+      <h2>⠀</h2>
+      <h3>Name</h3>
+    </div>
+    <div class="group center" id="achievements_reqs">
+      <h2>Achievements</h2>
+      <h3>Requirements</h3>
+    </div>
+    <div class="group center" id="achievements_effs">
+      <h2>⠀</h2>
+      <h3>Effects</h3>
+    </div>`;
+  }
+
+  if (i.id == "settings") {
+    return `
+    <div class="group center" id="settings_group">
+      <h2>Settings</h2>
+    </div>`;
+  }
+
+  return `
+  <div class="group left-group" id="${i.id}_producers">
+    <h2>${i.name}</h2>
+  </div>
+  <div class="group"></div>
+  <div class="group right-group" id="${i.id}_upgrades">
+    <h2>${i.name} Upgrades</h2>
+  </div>`
+}
+
 var producers = [];
 var upgrades = [];
+var achievements = [];
 
 (async () => {
-  const loadedProducers = await loadJson("./src/producers.json");
-  const loadedUpgrades = await loadJson("./src/upgrades.json");
+  const loadedProducers = await loadJson("./src/res/producers.json");
+  const loadedUpgrades = await loadJson("./src/res/upgrades.json");
+  achievements = await loadJson("./src/res/achievements.json");
 
   loadedProducers.forEach((p) => {
     const pr = new Producer(
@@ -95,17 +161,26 @@ var upgrades = [];
   });
 
   const body = document.getElementById("body");
+  var tabButtons = "";
+  Object.entries(tabs).forEach(([t, i]) => {
+    if (!i.hidden) {
+      tabButtons += `
+    <button class="tab-button" id="${i.id}button" onclick="gl.gm.showTab(${t})">${i.name}</button>
+    `;
+    }
+  });
+
+  body.innerHTML += `
+  <div class="tab-bar" id="tab-bar">
+    ${tabButtons}
+  </div>
+  `
+
   Object.entries(tabs).forEach(([t, i]) => {
     body.innerHTML += `
   <!-- ${i.name} Tab -->
   <div class="tab hidden" id="${i.id}">
-    <div class="group left-group" id="${i.id}_producers">
-        <h2>${i.name}</h2>
-    </div>
-    <div class="group"></div>
-    <div class="group right-group" id="${i.id}_upgrades">
-        <h2>${i.name} Upgrades</h2>
-    </div>
+    ${getHTML(i)}
   </div>
   `;
   });
@@ -116,14 +191,14 @@ var upgrades = [];
   <!-- ${p.name}s -->
   <div id="${p.id}g" class="hidden">
     <div class="subgroup">
-        <p class="inline push-right">${p.name}s</p>
-        <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
-            Buy 1 ${p.name} for ${p.costNow}
-        </button>
+      <p class="inline push-right">${p.name}s</p>
+      <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
+          Buy 1 ${p.name} for ${p.costNow}
+      </button>
     </div>
     <div class="stat-group">
-        <p class="inline amount grey glow" style="margin-left: 0" id="${p.id}a">0</p>
-        <p class="inline amount grey glow" id="${p.id}p">0</p>
+      <p class="inline amount grey glow" style="margin-left: 0" id="${p.id}a">0</p>
+      <p class="inline amount grey glow" id="${p.id}p">0</p>
     </div>
   </div>
   `;
@@ -134,21 +209,36 @@ var upgrades = [];
     group.innerHTML += `
   <!-- ${u.name}s -->
   <div id="${u.id}g" class="hidden">
-      <div class="subgroup">
-          <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
-              Buy Upgrade for ${u.cost}
-          </button>
-          <p class="inline">${u.name}</p>
-      </div>
-      <div class="stat-group">
-          <p class="inline amount grey glow" style="margin-left: 0" id="${u.id}p">
-              ${u.desc}
-          </p>
-          <p class="inline amount grey glow" id="${u.id}a">
-              ${u.subdesc}
-          </p>
-      </div>
+    <div class="subgroup">
+      <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
+          Buy Upgrade for ${u.cost}
+      </button>
+      <p class="inline">${u.name}</p>
+    </div>
+    <div class="stat-group">
+      <p class="inline amount grey glow" style="margin-left: 0" id="${u.id}p">
+          ${u.desc}
+      </p>
+      <p class="inline amount grey glow" id="${u.id}a">
+          ${u.subdesc}
+      </p>
+    </div>
   </div>
+  `;
+  });
+
+  const achNames = document.getElementById("achievements_names");
+  const achReqs = document.getElementById("achievements_reqs");
+  const achEffs = document.getElementById("achievements_effs");
+  achievements.forEach(a => {
+    achNames.innerHTML += `
+  <p id="ach${a.id}_n" class="unachieved">${a.id}: ${a.name}</p>
+  `;
+    achReqs.innerHTML += `
+  <p id="ach${a.id}_r" class="unachieved">${a.reqs}</p>
+  `;
+    achEffs.innerHTML += `
+  <p id="ach${a.id}_e" class="unachieved">${a.effs}</p>
   `;
   });
 

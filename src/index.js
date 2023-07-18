@@ -3,6 +3,7 @@ class Game {
     this.producers = [];
     this.upgrades = [];
     this.producing = 0;
+    this.activeTab = 1;
   }
 
   getProducersAndUpgrades() {
@@ -77,14 +78,12 @@ class Game {
 
   updateGameInternals(p) {
     p.costNow = p.amount
-      .add(p.amount.add(1).mul(p.costStart))
-      .sub(p.costStart)
+      .add(p.amount.mul(p.costStart / 2))
       .pow(p.costScale)
       .add(p.costStart)
       .toFixed(2); // cost scaling
-    // currently: (n + ((n + 1) * cf) - cf) ^ cs + cf
-    // for t1_c1: (n + ((n + 1) * 10) - 10) ^ 1.15 + 10
-    // prices   : 10.00, 25.76, 44.98, 65.76
+    // currently: (n + (n * (cs / 2))) + cs
+    // prices   : 10.00, 16.92, 24.64, 32.68, 40.95
     p.producesNow = p.producesFirst.mul(p.amount);
 
     this.upgrades
@@ -104,6 +103,11 @@ class Game {
       if (elg.classList.contains("hidden") && this.handleReveal(null, p)) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
+        p.revealTime = Date.now() / 1000;
+      }
+      
+      if (elg.classList.contains("fade-in") && (Date.now() / 1000) > p.revealTime + 1) {
+        elg.classList.remove("fade-in")
       }
     }
 
@@ -127,6 +131,11 @@ class Game {
       if (elg.classList.contains("hidden") && this.handleReveal(u, null)) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
+        u.revealTime = Date.now() / 1000;
+      }
+      
+      if (elg.classList.contains("fade-in") && (Date.now() / 1000) > u.revealTime + 1) {
+        elg.classList.remove("fade-in")
       }
     }
   }
@@ -151,11 +160,20 @@ class Game {
       this.updateUpgradeDisplays(u);
     });
   }
+
+  showTab(i) {
+    var currentTab = tabs[this.activeTab];
+    if (currentTab.id != tabs[i].id) {
+      this.activeTab = i;
+      document.getElementById(currentTab.id).classList.add("hidden");
+      document.getElementById(tabs[i].id).classList.remove("hidden");
+    }
+  }
 }
 
 class Economy {
   constructor() {
-    this.balance = new Decimal(10);
+    this.balance = new Decimal(1000);
   }
 
   addToBalance(a) {
@@ -173,7 +191,6 @@ class Economy {
 
   displayProducing() {
     const producing = gl.gm.producing;
-
     const el = document.getElementById("producingBalance");
     el.innerText = `producing ${producing} matter /s`;
   }
@@ -188,6 +205,45 @@ class GameLoop {
   constructor() {
     this.gm = new Game();
     this.ec = new Economy();
+  }
+
+  achievementSwitch(type) {
+    switch (type) {
+      case "producer":
+        return this.gm.producers;
+      case "upgrade":
+        return this.gm.upgrades;
+      case "balance":
+        return this.ec.balance;
+    }
+  }
+
+  checkAchievements() {
+    achievements.forEach((a) => {
+      const source = this.achievementSwitch(a.args.type);
+      const obj = source.filter((x) => x.id == a.args.id)[0];
+      if (
+          (obj.amount &&
+            obj.amount >= a.args.amount) || 
+          (!obj.amount &&
+            obj.bought)
+          && !a.achieved
+        ) {
+        a.achieved = true;
+      }
+
+      if (a.achieved && document.getElementById(`ach${a.id}_n`).classList.contains("unachieved")) {
+        const elIds = ["n", "r", "e"];
+        elIds.forEach((i) => {
+          const el = document.getElementById(`ach${a.id}_${i}`);
+          el.classList.remove("unachieved");
+
+          if (i == "e") {
+            el.classList.add("glow");
+          }
+        })
+      }
+    })
   }
 
   main() {
@@ -205,6 +261,11 @@ class GameLoop {
     setInterval(() => {
       try {
         this.gm.updateBalance().bind(this);
+      } catch {}
+    }, 100);
+    setInterval(() => {
+      try {
+        this.checkAchievements().bind(this);
       } catch {}
     }, 100);
   }
