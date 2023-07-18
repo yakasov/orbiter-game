@@ -45,43 +45,43 @@ var tabs = {
   1: {
     id: "period12",
     name: "Periods 1 and 2",
-    hidden: false
+    hidden: false,
   },
   2: {
     id: "period3",
     name: "Period 3",
-    hidden: true
+    hidden: true,
   },
   3: {
     id: "period4",
     name: "Period 4",
-    hidden: true
+    hidden: true,
   },
   4: {
     id: "period5",
     name: "Period 5",
-    hidden: true
+    hidden: true,
   },
   5: {
     id: "period6",
     name: "Period 6",
-    hidden: true
+    hidden: true,
   },
   6: {
     id: "period7",
     name: "Period 7",
-    hidden: true
+    hidden: true,
   },
   7: {
     id: "achievements",
     name: "Achievements",
-    hidden: false
+    hidden: false,
   },
   8: {
     id: "settings",
     name: "Settings",
-    hidden: false
-  }
+    hidden: false,
+  },
 };
 
 async function loadJson(l) {
@@ -119,7 +119,7 @@ function getHTML(i) {
   <div class="group"></div>
   <div class="group right-group" id="${i.id}_upgrades">
     <h2>${i.name} Upgrades</h2>
-  </div>`
+  </div>`;
 }
 
 var producers = [];
@@ -174,7 +174,7 @@ var achievements = [];
   <div class="tab-bar" id="tab-bar">
     ${tabButtons}
   </div>
-  `
+  `;
 
   Object.entries(tabs).forEach(([t, i]) => {
     body.innerHTML += `
@@ -230,7 +230,7 @@ var achievements = [];
   const achNames = document.getElementById("achievements_names");
   const achReqs = document.getElementById("achievements_reqs");
   const achEffs = document.getElementById("achievements_effs");
-  achievements.forEach(a => {
+  achievements.forEach((a) => {
     achNames.innerHTML += `
   <p id="ach${a.id}_n" class="unachieved">${a.id}: ${a.name}</p>
   `;

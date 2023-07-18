@@ -105,9 +105,12 @@ class Game {
         elg.classList.add("fade-in");
         p.revealTime = Date.now() / 1000;
       }
-      
-      if (elg.classList.contains("fade-in") && (Date.now() / 1000) > p.revealTime + 1) {
-        elg.classList.remove("fade-in")
+
+      if (
+        elg.classList.contains("fade-in") &&
+        Date.now() / 1000 > p.revealTime + 1
+      ) {
+        elg.classList.remove("fade-in");
       }
     }
 
@@ -133,9 +136,12 @@ class Game {
         elg.classList.add("fade-in");
         u.revealTime = Date.now() / 1000;
       }
-      
-      if (elg.classList.contains("fade-in") && (Date.now() / 1000) > u.revealTime + 1) {
-        elg.classList.remove("fade-in")
+
+      if (
+        elg.classList.contains("fade-in") &&
+        Date.now() / 1000 > u.revealTime + 1
+      ) {
+        elg.classList.remove("fade-in");
       }
     }
   }
@@ -223,16 +229,16 @@ class GameLoop {
       const source = this.achievementSwitch(a.args.type);
       const obj = source.filter((x) => x.id == a.args.id)[0];
       if (
-          (obj.amount &&
-            obj.amount >= a.args.amount) || 
-          (!obj.amount &&
-            obj.bought)
-          && !a.achieved
-        ) {
+        (obj.amount && obj.amount >= a.args.amount) ||
+        (!obj.amount && obj.bought && !a.achieved)
+      ) {
         a.achieved = true;
       }
 
-      if (a.achieved && document.getElementById(`ach${a.id}_n`).classList.contains("unachieved")) {
+      if (
+        a.achieved &&
+        document.getElementById(`ach${a.id}_n`).classList.contains("unachieved")
+      ) {
         const elIds = ["n", "r", "e"];
         elIds.forEach((i) => {
           const el = document.getElementById(`ach${a.id}_${i}`);
@@ -241,9 +247,9 @@ class GameLoop {
           if (i == "e") {
             el.classList.add("glow");
           }
-        })
+        });
       }
-    })
+    });
   }
 
   main() {

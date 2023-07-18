@@ -4,12 +4,11 @@
     "name": "The First One's Nearly Free",
     "reqs": "Own your first producer",
     "effs": "",
-    "args": 
-      {
-        "type": "producer",
-        "id": "t1_p1",
-        "amount": 1
-      },
+    "args": {
+      "type": "producer",
+      "id": "t1_p1",
+      "amount": 1
+    },
     "achieved": false
   },
   {
@@ -17,12 +16,11 @@
     "name": "Union Organised Breaks",
     "reqs": "Own your first upgrade",
     "effs": "",
-    "args": 
-      {
-        "type": "upgrade",
-        "id": "t1_u1",
-        "amount": 1
-      },
+    "args": {
+      "type": "upgrade",
+      "id": "t1_u1",
+      "amount": 1
+    },
     "achieved": false
   }
 ]
