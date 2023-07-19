@@ -151,3 +151,22 @@ button {
   animation: fade-in 1s linear;
   visibility: visible;
 }
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0px 0px 0px #000;
+    color: #ccc;
+  }
+  50% {
+    text-shadow: 0px 1px 8px #0b0;
+    color: #0e0;
+  }
+  100% {
+    text-shadow: 0px 0px 0px #000;
+    color: #ccc;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}

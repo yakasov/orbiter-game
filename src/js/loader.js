@@ -1,5 +1,15 @@
 class Producer {
-  constructor(tab, id, name, plural, costStart, costScale, produces, reveal) {
+  constructor(
+    tab,
+    id,
+    name,
+    plural,
+    costStart,
+    costScale,
+    produces,
+    reveal,
+    element
+  ) {
     this.tab = tab;
     this.id = id;
     this.name = name;
@@ -15,6 +25,9 @@ class Producer {
     this.revealType = reveal.type;
     this.revealAmount = reveal.amount;
     this.revealTime;
+
+    this.elementName = element.name;
+    this.elementAmount = new Decimal(0);
   }
 }
 
@@ -116,7 +129,9 @@ function getHTML(i) {
   <div class="group left-group" id="${i.id}_producers">
     <h2>${i.name}</h2>
   </div>
-  <div class="group"></div>
+  <div class="group center-group" id="${i.id}_elements">
+    <h2>Elements</h2>
+  </div>
   <div class="group right-group" id="${i.id}_upgrades">
     <h2>${i.name} Upgrades</h2>
   </div>`;
@@ -140,7 +155,8 @@ var achievements = [];
       p.costStart,
       p.costScale,
       p.produces,
-      p.reveal
+      p.reveal,
+      p.element
     );
     producers = producers.concat(pr);
   });
@@ -165,7 +181,7 @@ var achievements = [];
   Object.entries(tabs).forEach(([t, i]) => {
     if (!i.hidden) {
       tabButtons += `
-    <button class="tab-button" id="${i.id}button" onclick="gl.gm.showTab(${t})">${i.name}</button>
+    <button class="tab-button" id="${i.id}button" onclick="gl.ds.showTab(${t})">${i.name}</button>
     `;
     }
   });
@@ -186,8 +202,8 @@ var achievements = [];
   });
 
   producers.forEach((p, i) => {
-    const group = document.getElementById(`${tabs[p.tab].id}_producers`);
-    group.innerHTML += `
+    const leftGroup = document.getElementById(`${tabs[p.tab].id}_producers`);
+    leftGroup.innerHTML += `
   <!-- ${p.name}s -->
   <div id="${p.id}g" class="hidden">
     <div class="subgroup">
@@ -199,6 +215,15 @@ var achievements = [];
     <div class="stat-group">
       <p class="inline amount grey glow" style="margin-left: 0" id="${p.id}a">0</p>
       <p class="inline amount grey glow" id="${p.id}p">0</p>
+    </div>
+  </div>
+  `;
+
+    const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
+    centerGroup.innerHTML += `
+  <div id="${p.id}e" class="">
+    <div class="subgroup" style="display: block">
+      <p class="center inline" id="${p.id}ea">0</p>
     </div>
   </div>
   `;

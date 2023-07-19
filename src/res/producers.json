@@ -10,6 +10,9 @@
     "reveal": {
       "type": "balance",
       "amount": 0
+    },
+    "element": {
+      "name": "H"
     }
   },
   {
@@ -23,6 +26,9 @@
     "reveal": {
       "type": "balance",
       "amount": 50
+    },
+    "element": {
+      "name": "He"
     }
   }
 ]
