@@ -28,6 +28,7 @@ class Producer {
 
     this.elementName = element.name;
     this.elementAmount = new Decimal(0);
+    this.elementRevealTime;
   }
 }
 
@@ -179,11 +180,11 @@ var achievements = [];
   const body = document.getElementById("body");
   var tabButtons = "";
   Object.entries(tabs).forEach(([t, i]) => {
-    if (!i.hidden) {
-      tabButtons += `
-    <button class="tab-button" id="${i.id}button" onclick="gl.ds.showTab(${t})">${i.name}</button>
-    `;
-    }
+    tabButtons += `
+  <button class="tab-button ${i.hidden ? "hidden" : ""}" id="${
+      i.id
+    }button" onclick="gl.ds.showTab(${t})">${i.name}</button>
+  `;
   });
 
   body.innerHTML += `
@@ -221,7 +222,7 @@ var achievements = [];
 
     const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
     centerGroup.innerHTML += `
-  <div id="${p.id}e" class="">
+  <div class="hidden" id="${p.id}e">
     <div class="subgroup" style="display: block">
       <p class="center inline" id="${p.id}ea">0</p>
     </div>

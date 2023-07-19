@@ -39,6 +39,7 @@ class Display {
     const elg = document.getElementById(`${p.id}g`); // group for visibility
     const elp = document.getElementById(`${p.id}p`); // producing eg '50 matter /s'
     const elea = document.getElementById(`${p.id}ea`); // element amount
+    const ele = document.getElementById(`${p.id}e`); // element group
 
     if (elg) {
       if (elg.classList.contains("hidden") && this.handleReveal(null, p)) {
@@ -52,6 +53,21 @@ class Display {
         Date.now() / 1000 > p.revealTime + 1
       ) {
         elg.classList.remove("fade-in");
+      }
+    }
+
+    if (ele) {
+      if (ele.classList.contains("hidden") && p.amount.gte(1)) {
+        ele.classList.remove("hidden");
+        ele.classList.add("fade-in");
+        p.elementRevealTime = Date.now() / 1000;
+      }
+
+      if (
+        ele.classList.contains("fade-in") &&
+        Date.now() / 1000 > p.elementRevealTime + 1
+      ) {
+        ele.classList.remove("fade-in");
       }
     }
 
