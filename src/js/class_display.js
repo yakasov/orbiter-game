@@ -12,6 +12,7 @@ class Display {
 
       if (tabs[i].id == "achievements") {
         document.getElementById("achievementsbutton").classList.remove("pulse");
+        gl.ac.achievementsChecked = true;
       }
     }
   }
@@ -79,6 +80,7 @@ class Display {
 
   updateUpgradeDisplays(u) {
     const elg = document.getElementById(`${u.id}g`); // group for visibility
+    const elub = document.getElementById(`${u.id}b`); // button
 
     if (elg) {
       if (elg.classList.contains("hidden") && this.handleReveal(u, null)) {
@@ -93,6 +95,12 @@ class Display {
       ) {
         elg.classList.remove("fade-in");
       }
+    }
+
+    if (elub && u.bought) {
+      elub.innerText = "Bought!";
+      elub.classList.add("disabled");
+      elub.setAttribute("disabled", true);
     }
   }
 

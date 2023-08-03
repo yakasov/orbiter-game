@@ -141,6 +141,7 @@ function getHTML(i) {
 var producers = [];
 var upgrades = [];
 var achievements = [];
+var loadedGame = false;
 
 (async () => {
   const loadedProducers = await loadJson("./src/res/producers.json");
@@ -269,4 +270,5 @@ var achievements = [];
   });
 
   document.getElementById("period12").classList.remove("hidden");
+  loadedGame = true;
 })();

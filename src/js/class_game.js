@@ -23,12 +23,6 @@ class Game {
     if (gl.ec.balance.gte(u.cost)) {
       u.bought = true;
       gl.ec.removeFromBalance(u.cost);
-      const elub = document.getElementById(`${u.id}b`);
-      if (elub) {
-        elub.innerText = "Bought!";
-        elub.classList.add("disabled");
-        elub.setAttribute("disabled", true);
-      }
     }
   }
 
