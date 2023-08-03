@@ -1,6 +1,6 @@
 class Economy {
   constructor() {
-    this.balance = new Decimal(1000);
+    this.balance = new Decimal(10000);
   }
 
   addToBalance(a) {
@@ -13,13 +13,13 @@ class Economy {
 
   displayBalance() {
     const el = document.getElementById("mainBalance");
-    el.innerText = `You have ${this.balance.toFixed(2)} matter.`;
+    el.innerText = `You have ${f(this.balance)} matter.`;
   }
 
   displayProducing() {
     const producing = gl.gm.producing;
     const el = document.getElementById("producingBalance");
-    el.innerText = `producing ${producing} matter /s`;
+    el.innerText = `producing ${f(producing)} matter /s`;
   }
 
   updateLoop() {

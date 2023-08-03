@@ -42,6 +42,8 @@ class Game {
   }
 
   switchUpgrade(n, o, a) {
+    if (typeof n == "number") n = new Decimal(n);
+
     switch (o) {
       case "add":
         return n.add(a);
@@ -83,7 +85,7 @@ class Game {
     this.producing = new Decimal(0);
     this.producers.forEach((p) => {
       this.updateGameInternals(p);
-      p.elementAmount = p.elementAmount.add(p.producesNow.div(10));
+      p.elementAmount = p.elementAmount.add(p.amount.div(100));
       this.producing = this.producing.add(p.producesNow);
     });
 

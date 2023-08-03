@@ -16,5 +16,23 @@
       "type": "amount",
       "amount": 2
     }
+  },
+  {
+    "tab": 1,
+    "id": "t1_u2",
+    "affects": ["t1_p2"],
+    "name": "Hunter Bow Strengthening",
+    "desc": "-0.04 Helium Hunters cost scale",
+    "subdesc": "Improve hunter bows, decreasing replacement costs",
+    "cost": 1500,
+    "bonus": {
+      "type": "costScale",
+      "op": "sub",
+      "amount": 0.04
+    },
+    "reveal": {
+      "type": "amount",
+      "amount": 2
+    }
   }
 ]

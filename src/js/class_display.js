@@ -71,10 +71,10 @@ class Display {
       }
     }
 
-    if (ela) ela.innerText = `${p.amount} ${p.plural}`;
-    if (elb) elb.innerText = `Buy 1 ${p.name} for ${p.costNow.toString()}`;
-    if (elp) elp.innerText = `${p.producesNow.toString()} matter /s`;
-    if (elea) elea.innerText = `${p.elementAmount.toFixed(0)} ${p.elementName}`;
+    if (ela) ela.innerText = `${f(p.amount)} ${p.plural}`;
+    if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
+    if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
+    if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;
   }
 
   updateUpgradeDisplays(u) {
