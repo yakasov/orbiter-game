@@ -103,39 +103,38 @@ async function loadJson(l) {
 }
 
 function getHTML(i) {
-  if (i.id == "achievements") {
-    return `
-    <div class="group center" id="achievements_names">
-      <h2>⠀</h2>
-      <h3>Name</h3>
-    </div>
-    <div class="group center" id="achievements_reqs">
-      <h2>Achievements</h2>
-      <h3>Requirements</h3>
-    </div>
-    <div class="group center" id="achievements_effs">
-      <h2>⠀</h2>
-      <h3>Effects</h3>
-    </div>`;
+  switch (i.id) {
+    case "achievements":
+      return `
+      <div class="group center" id="achievements_names">
+        <h2>⠀</h2>
+        <h3>Name</h3>
+      </div>
+      <div class="group center" id="achievements_reqs">
+        <h2>Achievements</h2>
+        <h3>Requirements</h3>
+      </div>
+      <div class="group center" id="achievements_effs">
+        <h2>⠀</h2>
+        <h3>Effects</h3>
+      </div>`;
+    case "settings":
+      return `
+      <div class="group center" id="settings_group">
+        <h2>Settings</h2>
+      </div>`;
+    default:
+      return `
+      <div class="group left-group" id="${i.id}_producers">
+        <h2>${i.name}</h2>
+      </div>
+      <div class="group center-group" id="${i.id}_elements">
+        <h2>Elements</h2>
+      </div>
+      <div class="group right-group" id="${i.id}_upgrades">
+        <h2>${i.name} Upgrades</h2>
+      </div>`;
   }
-
-  if (i.id == "settings") {
-    return `
-    <div class="group center" id="settings_group">
-      <h2>Settings</h2>
-    </div>`;
-  }
-
-  return `
-  <div class="group left-group" id="${i.id}_producers">
-    <h2>${i.name}</h2>
-  </div>
-  <div class="group center-group" id="${i.id}_elements">
-    <h2>Elements</h2>
-  </div>
-  <div class="group right-group" id="${i.id}_upgrades">
-    <h2>${i.name} Upgrades</h2>
-  </div>`;
 }
 
 var producers = [];
@@ -215,8 +214,8 @@ var loadedGame = false;
       </button>
     </div>
     <div class="stat-group">
-      <p class="inline amount grey glow" style="margin-left: 0" id="${p.id}a">0</p>
-      <p class="inline amount grey glow" id="${p.id}p">0</p>
+      <p class="inline amount grey glow left" id="${p.id}a">0</p>
+      <p class="inline amount grey glow right" id="${p.id}p">0</p>
     </div>
   </div>
   `;
@@ -232,8 +231,8 @@ var loadedGame = false;
   });
 
   upgrades.forEach((u, i) => {
-    const group = document.getElementById(`${tabs[u.tab].id}_upgrades`);
-    group.innerHTML += `
+    const rightGroup = document.getElementById(`${tabs[u.tab].id}_upgrades`);
+    rightGroup.innerHTML += `
   <!-- ${u.name}s -->
   <div id="${u.id}g" class="hidden">
     <div class="subgroup">
@@ -243,10 +242,10 @@ var loadedGame = false;
       <p class="inline">${u.name}</p>
     </div>
     <div class="stat-group">
-      <p class="inline amount grey glow" style="margin-left: 0" id="${u.id}p">
+      <p class="inline amount grey glow left" id="${u.id}p">
           ${u.desc}
       </p>
-      <p class="inline amount grey glow" id="${u.id}a">
+      <p class="inline amount grey glow right" id="${u.id}a">
           ${u.subdesc}
       </p>
     </div>
@@ -268,6 +267,21 @@ var loadedGame = false;
   <p id="ach${a.id}_e" class="unachieved">${a.effs}</p>
   `;
   });
+
+  const settings = document.getElementById("settings_group");
+  settings.innerHTML += `
+  <div class="center">
+    <div>
+      <p id="saveMessage">⠀</p>
+    </div>
+    <div>
+      <button onclick="exportSave();">Export Save</button>
+      <button onclick="importSave();">Import Save</button>
+      <input id="saveDataEntry" />
+      <button class="scary" onclick="resetSave();">Reset Save</button>
+    </div>
+  </div>
+  `;
 
   document.getElementById("period12").classList.remove("hidden");
   loadedGame = true;

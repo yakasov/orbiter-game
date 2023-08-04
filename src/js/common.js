@@ -88,19 +88,48 @@ function exportSave() {
   });
   const encodedFullLoad = btoa(fullLoad);
 
-  console.log(encodedFullLoad);
+  const saveMessage = document.getElementById("saveMessage");
+  try {
+    navigator.clipboard.writeText(encodedFullLoad);
+    saveMessage.innerText = "Copied save to clipboard!";
+  } catch (e) {
+    saveMessage.innerText = e;
+  }
 }
 
 function importSave(encodedData = null) {
-  if (!encodedData) return;
+  if (!encodedData) {
+    const saveDataEntryBox = document.getElementById("saveDataEntry");
+    encodedData = saveDataEntryBox.value;
+  }
 
-  const decodedData = JSON.parse(atob(encodedData));
+  const saveMessage = document.getElementById("saveMessage");
+
+  try {
+    const decodedData = JSON.parse(atob(encodedData));
+    if (
+      decodedData["achievements"] &&
+      decodedData["producers"] &&
+      decodedData["upgrades"] &&
+      decodedData["general"]
+    ) {
+      loadSave(decodedData);
+      saveMessage.innerText = "Loaded game!";
+    }
+  } catch (e) {
+    if (!encodedData.length) {
+      saveMessage.innerText = "No data to load!";
+    } else {
+      saveMessage.innerText = e;
+    }
+  }
+}
+
+function resetSave() {
   if (
-    decodedData["achievements"] &&
-    decodedData["producers"] &&
-    decodedData["upgrades"] &&
-    decodedData["general"]
+    confirm("Are you sure you want to delete your save? There's no going back!")
   ) {
-    loadSave(decodedData);
+    localStorage.clear();
+    location.reload();
   }
 }
