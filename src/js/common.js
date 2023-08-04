@@ -1,7 +1,5 @@
 function f(n) {
-  if (typeof n == "string" || !n) {
-    return n;
-  }
+  if (typeof n == "string" || !n) return n;
 
   const ns = n.toString();
 
@@ -21,7 +19,7 @@ function saveGame() {
     return { id: a.id, achieved: a.achieved };
   });
   const producersToSave = producers.map((p) => {
-    return { id: p.id, amount: p.amount };
+    return { id: p.id, amount: p.amount, elementAmount: p.elementAmount };
   });
   const upgradesToSave = upgrades.map((u) => {
     return { id: u.id, bought: u.bought };
@@ -36,22 +34,73 @@ function saveGame() {
   localStorage.setItem("general", JSON.stringify(generalToSave));
 }
 
-function loadSave() {
+function getSaveFromStorage() {
   const loadedAchievements = JSON.parse(localStorage.getItem("achievements"));
   const loadedProducers = JSON.parse(localStorage.getItem("producers"));
   const loadedUpgrades = JSON.parse(localStorage.getItem("upgrades"));
   const loadedGeneral = JSON.parse(localStorage.getItem("general"));
 
-  loadedAchievements?.forEach((la) => {
-    achievements.filter((a) => a.id == la.id)[0]["achieved"] = la.achieved;
+  return {
+    achievements: loadedAchievements,
+    producers: loadedProducers,
+    upgrades: loadedUpgrades,
+    general: loadedGeneral,
+  };
+}
+
+function loadSave(data = null) {
+  if (!data) data = getSaveFromStorage();
+
+  // Achievement save mapping
+  data["achievements"]?.forEach((la) => {
+    var ca = achievements.filter((a) => a.id == la.id)[0];
+
+    ca["achieved"] = la.achieved;
   });
-  loadedProducers?.forEach((lp) => {
-    producers.filter((p) => p.id == lp.id)[0]["amount"] = new Decimal(
-      lp.amount
-    );
+
+  // Producers save mapping
+  data["producers"]?.forEach((lp) => {
+    var cp = producers.filter((p) => p.id == lp.id)[0];
+
+    cp["amount"] = new Decimal(lp.amount);
+    cp["elementAmount"] = new Decimal(lp.elementAmount);
   });
-  loadedUpgrades?.forEach((lu) => {
-    upgrades.filter((u) => u.id == lu.id)[0]["bought"] = lu.bought;
+
+  // Upgrades save mapping
+  data["upgrades"]?.forEach((lu) => {
+    var cu = upgrades.filter((u) => u.id == lu.id)[0];
+
+    cu["bought"] = lu.bought;
   });
-  gl.ec.balance = new Decimal(loadedGeneral.balance);
+
+  // General save mapping
+  gl.ec.balance = new Decimal(data["general"].balance);
+}
+
+function exportSave() {
+  saveGame();
+
+  const fullLoad = JSON.stringify({
+    achievements: JSON.parse(localStorage.getItem("achievements")),
+    producers: JSON.parse(localStorage.getItem("producers")),
+    upgrades: JSON.parse(localStorage.getItem("upgrades")),
+    general: JSON.parse(localStorage.getItem("general")),
+  });
+  const encodedFullLoad = btoa(fullLoad);
+
+  console.log(encodedFullLoad);
+}
+
+function importSave(encodedData = null) {
+  if (!encodedData) return;
+
+  const decodedData = JSON.parse(atob(encodedData));
+  if (
+    decodedData["achievements"] &&
+    decodedData["producers"] &&
+    decodedData["upgrades"] &&
+    decodedData["general"]
+  ) {
+    loadSave(decodedData);
+  }
 }
