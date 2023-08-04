@@ -50,6 +50,7 @@ function getSaveFromStorage() {
 
 function loadSave(data = null) {
   if (!data) data = getSaveFromStorage();
+  if (!data.length) return;
 
   // Achievement save mapping
   data["achievements"]?.forEach((la) => {
