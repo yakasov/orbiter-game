@@ -34,7 +34,10 @@ function saveGame(showMessage = false) {
   localStorage.setItem("general", JSON.stringify(generalToSave));
 
   const saveTime = document.getElementById("saveTime");
-  const t = new Date().toISOString().split("T");
+  const d = new Date();
+  const t = new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000)
+    .toISOString()
+    .split("T");
   saveTime.innerText = `Last saved at ${t[0]} ${t[1].split(".")[0]}.`;
 
   if (showMessage) {
