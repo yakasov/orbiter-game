@@ -14,7 +14,7 @@ function f(n) {
   return n.toFixed(0);
 }
 
-function saveGame() {
+function saveGame(showMessage = false) {
   const achievementsToSave = achievements.map((a) => {
     return { id: a.id, achieved: a.achieved };
   });
@@ -32,6 +32,15 @@ function saveGame() {
   localStorage.setItem("producers", JSON.stringify(producersToSave));
   localStorage.setItem("upgrades", JSON.stringify(upgradesToSave));
   localStorage.setItem("general", JSON.stringify(generalToSave));
+
+  const saveTime = document.getElementById("saveTime");
+  const t = new Date().toISOString().split("T");
+  saveTime.innerText = `Last saved at ${t[0]} ${t[1].split(".")[0]}.`;
+
+  if (showMessage) {
+    const saveMessage = document.getElementById("saveMessage");
+    saveMessage.innerText = "Saved game successfully!";
+  }
 }
 
 function getSaveFromStorage() {

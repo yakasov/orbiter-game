@@ -271,14 +271,13 @@ var loadedGame = false;
   const settings = document.getElementById("settings_group");
   settings.innerHTML += `
   <div class="center">
-    <div>
       <p id="saveMessage">⠀</p>
-    </div>
-    <div>
+      <button onclick="saveGame(true);" style="margin-right: 24px">Manual Save</button>
       <button onclick="exportSave();">Export Save</button>
       <button onclick="importSave();">Import Save</button>
       <input id="saveDataEntry" />
-      <button class="scary" onclick="resetSave();">Reset Save</button>
+      <button class="scary" onclick="resetSave();" style="margin-left: 24px">Reset Save</button>
+      <p id="saveTime">⠀</p>
     </div>
   </div>
   `;
