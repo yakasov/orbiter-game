@@ -18,6 +18,17 @@ class Game {
     }
   }
 
+  buyMax(n) {
+    var p = this.producers[n];
+
+    while (gl.ec.balance.gte(p.costNow)) {
+      // TODO: This breaks if balance is high enough, too many numbers!!
+      //       Figure out the proper formula for figuring this out
+      p.amount = p.amount.plus(1);
+      gl.ec.removeFromBalance(p.costNow);
+    }
+  }
+
   buyUpgrade(n) {
     var u = this.upgrades[n];
     if (gl.ec.balance.gte(u.cost)) {
@@ -63,7 +74,7 @@ class Game {
       .pow(p.costScale)
       .add(p.costStart)
       .toFixed(2); // cost scaling
-    // currently: (n + (n * (cs / 2))) + cs
+    // currently: (n + (n * (cs / 2))) ^ cS + cs
     // prices   : 10.00, 16.92, 24.64, 32.68, 40.95
     p.producesNow = p.producesFirst.mul(p.amount);
 

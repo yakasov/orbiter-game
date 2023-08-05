@@ -8,7 +8,8 @@ class Producer {
     costScale,
     produces,
     reveal,
-    element
+    element,
+    spacesBelow
   ) {
     this.tab = tab;
     this.id = id;
@@ -29,6 +30,8 @@ class Producer {
     this.elementName = element.name;
     this.elementAmount = new Decimal(0);
     this.elementRevealTime;
+
+    this.spacesBelow = spacesBelow ?? 0;
   }
 }
 
@@ -157,7 +160,8 @@ var loadedGame = false;
       p.costScale,
       p.produces,
       p.reveal,
-      p.element
+      p.element,
+      p.spacesBelow
     );
     producers = producers.concat(pr);
   });
@@ -209,9 +213,14 @@ var loadedGame = false;
   <div id="${p.id}g" class="hidden">
     <div class="subgroup">
       <p class="inline push-right">${p.name}s</p>
-      <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
+      <div>
+        <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
           Buy 1 ${p.name} for ${p.costNow}
-      </button>
+        </button>
+        <button id="${p.id}bm" onclick="gl.gm.buyMax(${i})">
+          Buy max
+        </button>
+      </div>
     </div>
     <div class="stat-group">
       <p class="inline amount grey glow left" id="${p.id}a">0</p>
@@ -219,6 +228,22 @@ var loadedGame = false;
     </div>
   </div>
   `;
+
+    if (p.spacesBelow) {
+      const producerGroup = document.getElementById(`${p.id}g`);
+      for (var s = 0; s < p.spacesBelow; s++) {
+        producerGroup.innerHTML += `
+      <!-- START SPACING DIV -->
+      <div class="subgroup">
+        <p class="inline">⠀</p>
+      </div>
+      <div class="stat-group">
+        <p class="inline">⠀</p>
+      </div>
+      <!-- END SPACING DIV -->
+        `;
+      }
+    }
 
     const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
     centerGroup.innerHTML += `
