@@ -9,7 +9,8 @@ class Producer {
     produces,
     reveal,
     element,
-    spacesBelow
+    spacesBelow,
+    dividerAbove
   ) {
     this.tab = tab;
     this.id = id;
@@ -31,12 +32,24 @@ class Producer {
     this.elementAmount = new Decimal(0);
     this.elementRevealTime;
 
-    this.spacesBelow = spacesBelow ?? 0;
+    this.spacesBelow = spacesBelow;
+    this.dividerAbove = dividerAbove;
   }
 }
 
 class Upgrade {
-  constructor(tab, id, affects, name, desc, subdesc, cost, bonus, reveal) {
+  constructor(
+    tab,
+    id,
+    affects,
+    name,
+    desc,
+    subdesc,
+    cost,
+    bonus,
+    reveal,
+    dividerAbove
+  ) {
     this.tab = tab;
     this.id = id;
     this.affects = affects;
@@ -55,6 +68,8 @@ class Upgrade {
     this.revealType = reveal.type;
     this.revealAmount = reveal.amount;
     this.revealTime;
+
+    this.dividerAbove = dividerAbove;
   }
 }
 
@@ -161,7 +176,8 @@ var loadedGame = false;
       p.produces,
       p.reveal,
       p.element,
-      p.spacesBelow
+      p.spacesBelow ?? 0,
+      p.dividerAbove ?? false
     );
     producers = producers.concat(pr);
   });
@@ -176,12 +192,20 @@ var loadedGame = false;
       u.subdesc,
       u.cost,
       u.bonus,
-      u.reveal
+      u.reveal,
+      u.dividerAbove ?? false
     );
     upgrades = upgrades.concat(up);
   });
 
   const body = document.getElementById("body");
+  const dividerString = `
+<!-- DIVIDER DIV -->
+<div class="divider">
+  <p class="inline amount grey">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+</div>
+  `;
+
   var tabButtons = "";
   Object.entries(tabs).forEach(([t, i]) => {
     tabButtons += `
@@ -245,6 +269,11 @@ var loadedGame = false;
       }
     }
 
+    if (p.dividerAbove) {
+      const producerGroup = document.getElementById(`${p.id}g`);
+      producerGroup.insertAdjacentHTML("afterbegin", dividerString);
+    }
+
     const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
     centerGroup.innerHTML += `
   <div class="hidden" id="${p.id}e">
@@ -276,6 +305,11 @@ var loadedGame = false;
     </div>
   </div>
   `;
+
+    if (u.dividerAbove) {
+      const upgradeGroup = document.getElementById(`${u.id}g`);
+      upgradeGroup.insertAdjacentHTML("afterbegin", dividerString);
+    }
   });
 
   const achNames = document.getElementById("achievements_names");
