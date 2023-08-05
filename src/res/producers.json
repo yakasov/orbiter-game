@@ -20,7 +20,7 @@
     "id": "t1_p2",
     "name": "Helium Hunter",
     "plural": "hunters",
-    "costStart": 100,
+    "costStart": 200,
     "costScale": 1.12,
     "produces": 10,
     "reveal": {

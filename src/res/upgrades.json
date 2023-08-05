@@ -22,9 +22,27 @@
     "id": "t1_u2",
     "affects": ["t1_p2"],
     "name": "Hunter Bow Strengthening",
-    "desc": "-0.04 Helium Hunters cost scale",
+    "desc": "-0.06 Helium Hunters cost scale",
     "subdesc": "Improve hunter bows, decreasing replacement costs",
     "cost": 1500,
+    "bonus": {
+      "type": "costScale",
+      "op": "sub",
+      "amount": 0.06
+    },
+    "reveal": {
+      "type": "amount",
+      "amount": 2
+    }
+  },
+  {
+    "tab": 1,
+    "id": "t1_u3",
+    "affects": ["t1_p1", "t1_p2"],
+    "name": "Period 1 Discounts",
+    "desc": "-0.04 Gatherer + Hunter cost scale",
+    "subdesc": "Work out a deal for some cheaper collectors",
+    "cost": 3000,
     "bonus": {
       "type": "costScale",
       "op": "sub",
@@ -32,7 +50,7 @@
     },
     "reveal": {
       "type": "amount",
-      "amount": 2
+      "amount": 5
     }
   }
 ]

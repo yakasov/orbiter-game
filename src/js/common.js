@@ -1,5 +1,6 @@
-function f(n) {
+function f(n, decimals = 2) {
   if (typeof n == "string" || !n) return n;
+  if (n.lte(1e3)) return n.toFixed(decimals);
 
   const ns = n.toString();
 
@@ -62,7 +63,7 @@ function getSaveFromStorage() {
 
 function loadSave(data = null) {
   if (!data) data = getSaveFromStorage();
-  if (!data.length) return;
+  if (data == {}) return;
 
   // Achievement save mapping
   data["achievements"]?.forEach((la) => {

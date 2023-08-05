@@ -32,7 +32,10 @@ class Game {
       u.bonusOp,
       u.bonusAmount
     );
-    u.applied = true;
+
+    if (u.affects.slice(-1) == p.id) {
+      u.applied = true;
+    }
   }
 
   switchUpgrade(n, o, a) {

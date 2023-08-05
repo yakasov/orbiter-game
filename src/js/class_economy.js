@@ -1,6 +1,6 @@
 class Economy {
   constructor() {
-    this.balance = new Decimal(10000);
+    this.balance = new Decimal(10);
   }
 
   addToBalance(a) {

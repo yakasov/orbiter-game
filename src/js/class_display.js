@@ -19,16 +19,25 @@ class Display {
 
   handleReveal(u, p) {
     if (p) {
-      const p1 = p.revealType == "balance" ? gl.ec.balance : p.amount;
+      const p1 =
+        p.revealType == "balance"
+          ? gl.ec.balance
+          : p.revealType == "producing"
+          ? gl.gm.producing
+          : p.amount;
       const p2 = p.revealAmount;
       return p1.gte(p2);
     }
 
     if (u) {
-      const up = gl.gm.producers.filter((p) => p.id == u.affects[0])[0];
-      const p1 = u.revealType == "balance" ? gl.ec.balance : up.amount;
-      const p2 = u.revealAmount;
-      return p1.gte(p2);
+      const uRequirements = gl.gm.producers.filter((p) =>
+        u.affects.includes(p.id)
+      );
+      return uRequirements.every((pr) => {
+        const p1 = u.revealType == "balance" ? gl.ec.balance : pr.amount;
+        const p2 = u.revealAmount;
+        return p1.gte(p2);
+      });
     }
 
     return false;
@@ -72,7 +81,7 @@ class Display {
       }
     }
 
-    if (ela) ela.innerText = `${f(p.amount)} ${p.plural}`;
+    if (ela) ela.innerText = `${f(p.amount, 0)} ${p.plural}`;
     if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
     if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
     if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;
