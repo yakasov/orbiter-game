@@ -18,6 +18,7 @@ class Producer {
     this.plural = plural;
 
     this.amount = new Decimal(0);
+    this.bonusAmount = new Decimal(0);
     this.costStart = new Decimal(costStart);
     this.costNow = new Decimal(0);
     this.costScale = costScale;
@@ -66,6 +67,7 @@ class Upgrade {
     this.bonusAmount = bonus.amount;
 
     this.revealType = reveal.type;
+    this.revealSource = reveal.source;
     this.revealAmount = reveal.amount;
     this.revealTime;
 

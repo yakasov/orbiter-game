@@ -3,6 +3,8 @@ class Game {
     this.producers = [];
     this.upgrades = [];
     this.producing = 0;
+
+    this.boosts = [];
   }
 
   getProducersAndUpgrades() {
@@ -20,12 +22,17 @@ class Game {
 
   buyMax(n) {
     var p = this.producers[n];
+    var tempCostNow = new Decimal(0);
 
-    while (gl.ec.balance.gte(p.costNow)) {
+    while (gl.ec.balance.gte(tempCostNow)) {
+      tempCostNow = p.amount
+        .add(1)
+        .mul(p.costStart)
+        .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
       // TODO: This breaks if balance is high enough, too many numbers!!
       //       Figure out the proper formula for figuring this out
       p.amount = p.amount.plus(1);
-      gl.ec.removeFromBalance(p.costNow);
+      gl.ec.removeFromBalance(tempCostNow);
     }
   }
 
@@ -38,11 +45,19 @@ class Game {
   }
 
   handleUpgrade(u, p) {
-    p[u.bonusType] = this.switchUpgrade(
-      p[u.bonusType],
-      u.bonusOp,
-      u.bonusAmount
-    );
+    if (u.bonusType == "bonusAmount") {
+      this.boosts = this.boosts.concat({
+        affects: u.affects[0],
+        source: u.bonusOp,
+        ratio: u.bonusAmount,
+      });
+    } else {
+      p[u.bonusType] = this.switchUpgrade(
+        p[u.bonusType],
+        u.bonusOp,
+        u.bonusAmount
+      );
+    }
 
     if (u.affects.slice(-1) == p.id) {
       u.applied = true;
@@ -68,14 +83,24 @@ class Game {
     }
   }
 
+  updateBoosts() {
+    this.boosts.forEach((b) => {
+      const affectsProducer = producers.filter((p) => p.id == b.affects)[0];
+      const sourceProducer = producers.filter((p) => p.id == b.source)[0];
+
+      affectsProducer.bonusAmount = sourceProducer.elementAmount.mul(b.ratio);
+    });
+  }
+
   updateGameInternals(p) {
+    this.updateBoosts();
     p.costNow = p.amount
       .add(1)
       .mul(p.costStart)
       .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
     // currently: (n + 1) * cst * (csc ^ costScale)
     // prices   : 10.00, 21.00, 33.08, 46.31, 60.78
-    p.producesNow = p.producesFirst.mul(p.amount);
+    p.producesNow = p.producesFirst.mul(p.amount.add(p.bonusAmount));
 
     this.upgrades
       .filter((u) => u.affects.includes(p.id) && u.bought && !u.applied)
@@ -92,10 +117,12 @@ class Game {
     this.producing = new Decimal(0);
     this.producers.forEach((p) => {
       this.updateGameInternals(p);
-      p.elementAmount = p.elementAmount.add(p.amount.div(100));
+      p.elementAmount = p.elementAmount.add(
+        p.amount.div(1000 / updateLoopInterval)
+      );
       this.producing = this.producing.add(p.producesNow);
     });
 
-    gl.ec.addToBalance(this.producing.div(100));
+    gl.ec.addToBalance(this.producing.div(1000 / updateLoopInterval));
   }
 }

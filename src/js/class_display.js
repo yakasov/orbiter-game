@@ -30,9 +30,15 @@ class Display {
     }
 
     if (u) {
-      const uRequirements = gl.gm.producers.filter((p) =>
-        u.affects.includes(p.id)
-      );
+      var uRequirements;
+      if (u.revealSource) {
+        uRequirements = gl.gm.producers.filter((p) =>
+          u.revealSource.includes(p.id)
+        );
+      } else {
+        uRequirements = gl.gm.producers.filter((p) => u.affects.includes(p.id));
+      }
+
       return uRequirements.every((pr) => {
         const p1 = u.revealType == "balance" ? gl.ec.balance : pr.amount;
         const p2 = u.revealAmount;
@@ -81,7 +87,7 @@ class Display {
       }
     }
 
-    if (ela) ela.innerText = `${f(p.amount, 0)} ${p.plural}`;
+    if (ela) ela.innerText = `${f(p.amount.add(p.bonusAmount), 0)} ${p.plural}`;
     if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
     if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
     if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;

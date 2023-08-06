@@ -1,3 +1,6 @@
+const updateLoopInterval = 25;
+const saveGameInterval = 10000;
+
 function f(n, decimals = 2) {
   if (typeof n == "string" || !n) return n;
   if (n.lte(1e3)) return n.toFixed(decimals);
@@ -88,7 +91,9 @@ function loadSave(data = null) {
   });
 
   // General save mapping
-  gl.ec.balance = new Decimal(data["general"].balance);
+  if (data.general) {
+    gl.ec.balance = new Decimal(data["general"].balance);
+  }
 }
 
 function exportSave() {

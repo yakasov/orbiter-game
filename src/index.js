@@ -5,45 +5,42 @@ class GameLoop {
     this.ds = new Display();
     this.ac = new Achievements();
     this.loadedSave = false;
-
-    this.updateLoopInterval = 10;
-    this.saveGameInterval = 10000;
   }
 
   main() {
     setInterval(() => {
       try {
-        // Run game updates @ 10ms
+        // Run game updates
         this.gm.updateLoop().bind(this);
       } catch {}
-    }, this.updateLoopInterval);
+    }, updateLoopInterval);
     setInterval(() => {
       try {
-        // Run display updates @ 10ms
+        // Run display updates
         this.ds.updateLoop().bind(this);
       } catch {}
-    }, this.updateLoopInterval);
+    }, updateLoopInterval);
     setInterval(() => {
       try {
-        // Run economy updates @ 10ms
+        // Run economy updates
         this.ec.updateLoop().bind(this);
       } catch {}
-    }, this.updateLoopInterval);
+    }, updateLoopInterval);
 
     setInterval(() => {
       try {
         // Run achievement updates @ 100ms
         this.ac.updateLoop().bind(this);
       } catch {}
-    }, this.updateLoopInterval * 10);
+    }, 100);
 
     setInterval(() => {
       if (loadedGame && !this.loadedSave) {
         loadSave();
         this.loadedSave = true;
       }
-    }, this.updateLoopInterval);
-    setInterval(saveGame, this.saveGameInterval);
+    }, updateLoopInterval);
+    setInterval(saveGame, saveGameInterval);
   }
 }
 

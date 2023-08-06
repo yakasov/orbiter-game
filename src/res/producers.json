@@ -31,5 +31,22 @@
       "name": "He"
     },
     "spacesBelow": 1
+  },
+  {
+    "tab": 1,
+    "id": "t1_p3",
+    "name": "Lithium Miner",
+    "plural": "miners",
+    "costStart": 10000,
+    "costScale": 1.05,
+    "produces": 250,
+    "reveal": {
+      "type": "producing",
+      "amount": 150
+    },
+    "element": {
+      "name": "Li"
+    },
+    "dividerAbove": true
   }
 ]
