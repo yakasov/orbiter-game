@@ -18,6 +18,27 @@ function f(n, decimals = 2) {
   return n.toFixed(0);
 }
 
+function switchAffects(n, o, a) {
+  // affect n by a using op o
+  if (typeof n == "number") n = new Decimal(n);
+  console.log(n, o, a);
+
+  switch (o) {
+    case "add":
+      return n.add(a);
+    case "sub":
+      return n.sub(a);
+    case "mul":
+      return n.mul(a);
+    case "div":
+      return n.div(a);
+    case "pow":
+      return n.pow(a);
+    case "log":
+      return n.log(a);
+  }
+}
+
 function saveGame(showMessage = false) {
   const achievementsToSave = achievements.map((a) => {
     return { id: a.id, achieved: a.achieved };

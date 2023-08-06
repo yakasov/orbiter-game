@@ -325,7 +325,9 @@ var loadedGame = false;
   <p id="ach${a.id}_r" class="unachieved">${a.reqs}</p>
   `;
     achEffs.innerHTML += `
-  <p id="ach${a.id}_e" class="unachieved">${a.effs}</p>
+  <p id="ach${a.id}_e" class="unachieved no-strikethrough">${
+      a.effs ? "?" : "⠀"
+    }</p>
   `;
   });
 

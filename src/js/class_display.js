@@ -87,7 +87,10 @@ class Display {
       }
     }
 
-    if (ela) ela.innerText = `${f(p.amount.add(p.bonusAmount), 0)} ${p.plural}`;
+    if (ela)
+      ela.innerText = `${f(p.amount, 0)} ${
+        p.bonusAmount.gt(0) ? "(+" + f(p.bonusAmount, 2) + ")" : ""
+      } ${p.plural}`;
     if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
     if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
     if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;
