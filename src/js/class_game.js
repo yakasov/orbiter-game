@@ -70,12 +70,11 @@ class Game {
 
   updateGameInternals(p) {
     p.costNow = p.amount
-      .add(p.amount.mul(p.costStart / 2))
-      .pow(p.costScale)
-      .add(p.costStart)
-      .toFixed(2); // cost scaling
-    // currently: (n + (n * (cs / 2))) ^ cS + cs
-    // prices   : 10.00, 16.92, 24.64, 32.68, 40.95
+      .add(1)
+      .mul(p.costStart)
+      .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
+    // currently: (n + 1) * cst * (csc ^ costScale)
+    // prices   : 10.00, 21.00, 33.08, 46.31, 60.78
     p.producesNow = p.producesFirst.mul(p.amount);
 
     this.upgrades

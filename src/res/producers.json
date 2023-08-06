@@ -5,7 +5,7 @@
     "name": "Hydrogen Gatherer",
     "plural": "gatherers",
     "costStart": 10,
-    "costScale": 1.08,
+    "costScale": 1.05,
     "produces": 1,
     "reveal": {
       "type": "balance",
@@ -21,7 +21,7 @@
     "name": "Helium Hunter",
     "plural": "hunters",
     "costStart": 200,
-    "costScale": 1.12,
+    "costScale": 1.09,
     "produces": 10,
     "reveal": {
       "type": "balance",
