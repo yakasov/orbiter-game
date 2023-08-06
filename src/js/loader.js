@@ -118,51 +118,51 @@ var tabs = {
   },
 };
 
-async function loadJson(l) {
-  return fetch(l).then((r) => r.json());
-}
-
-function getHTML(i) {
-  switch (i.id) {
-    case "achievements":
-      return `
-      <div class="group center" id="achievements_names">
-        <h2>⠀</h2>
-        <h3>Name</h3>
-      </div>
-      <div class="group center" id="achievements_reqs">
-        <h2>Achievements</h2>
-        <h3>Requirements</h3>
-      </div>
-      <div class="group center" id="achievements_effs">
-        <h2>⠀</h2>
-        <h3>Effects</h3>
-      </div>`;
-    case "settings":
-      return `
-      <div class="group center" id="settings_group">
-        <h2>Settings</h2>
-      </div>`;
-    default:
-      return `
-      <div class="group left-group" id="${i.id}_producers">
-        <h2>${i.name}</h2>
-      </div>
-      <div class="group center-group" id="${i.id}_elements">
-        <h2>Elements</h2>
-      </div>
-      <div class="group right-group" id="${i.id}_upgrades">
-        <h2>${i.name} Upgrades</h2>
-      </div>`;
-  }
-}
-
 var producers = [];
 var upgrades = [];
 var achievements = [];
 var loadedGame = false;
 
 (async () => {
+  async function loadJson(l) {
+    return fetch(l).then((r) => r.json());
+  }
+
+  function getHTML(i) {
+    switch (i.id) {
+      case "achievements":
+        return `
+        <div class="group center" id="achievements_names">
+          <h2>⠀</h2>
+          <h3>Name</h3>
+        </div>
+        <div class="group center" id="achievements_reqs">
+          <h2>Achievements</h2>
+          <h3>Requirements</h3>
+        </div>
+        <div class="group center" id="achievements_effs">
+          <h2>⠀</h2>
+          <h3>Effects</h3>
+        </div>`;
+      case "settings":
+        return `
+        <div class="group center" id="settings_group">
+          <h2>Settings</h2>
+        </div>`;
+      default:
+        return `
+        <div class="group left-group" id="${i.id}_producers">
+          <h2>${i.name}</h2>
+        </div>
+        <div class="group center-group" id="${i.id}_elements">
+          <h2>Elements</h2>
+        </div>
+        <div class="group right-group" id="${i.id}_upgrades">
+          <h2>${i.name} Upgrades</h2>
+        </div>`;
+    }
+  }
+
   const loadedProducers = await loadJson("./src/res/producers.json");
   const loadedUpgrades = await loadJson("./src/res/upgrades.json");
   achievements = await loadJson("./src/res/achievements.json");

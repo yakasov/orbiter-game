@@ -22,15 +22,14 @@ class Game {
 
   buyMax(n) {
     var p = this.producers[n];
-    var tempCostNow = new Decimal(0);
+    var tempCostNow = new Decimal(p.costNow);
 
     while (gl.ec.balance.gte(tempCostNow)) {
       tempCostNow = p.amount
         .add(1)
         .mul(p.costStart)
         .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
-      // TODO: This breaks if balance is high enough, too many numbers!!
-      //       Figure out the proper formula for figuring this out
+
       p.amount = p.amount.plus(1);
       gl.ec.removeFromBalance(tempCostNow);
     }
