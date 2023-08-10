@@ -201,12 +201,7 @@ var loadedGame = false;
   });
 
   const body = document.getElementById("body");
-  const dividerString = `
-<!-- DIVIDER DIV -->
-<div class="divider">
-  <p class="inline amount grey">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-</div>
-  `;
+  const topBar = document.getElementById("topBar");
 
   var tabButtons = "";
   Object.entries(tabs).forEach(([t, i]) => {
@@ -217,10 +212,11 @@ var loadedGame = false;
   `;
   });
 
-  body.innerHTML += `
+  topBar.innerHTML += `
   <div class="tab-bar" id="tab-bar">
     ${tabButtons}
   </div>
+  <hr />
   `;
 
   Object.entries(tabs).forEach(([t, i]) => {
@@ -273,7 +269,15 @@ var loadedGame = false;
 
     if (p.dividerAbove) {
       const producerGroup = document.getElementById(`${p.id}g`);
-      producerGroup.insertAdjacentHTML("afterbegin", dividerString);
+      producerGroup.insertAdjacentHTML(
+        "afterbegin",
+        `
+      <!-- DIVIDER DIV -->
+      <div class="divider" id="${p.id}d">
+        <hr />
+      </div>
+        `
+      );
     }
 
     const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
@@ -310,7 +314,15 @@ var loadedGame = false;
 
     if (u.dividerAbove) {
       const upgradeGroup = document.getElementById(`${u.id}g`);
-      upgradeGroup.insertAdjacentHTML("afterbegin", dividerString);
+      upgradeGroup.insertAdjacentHTML(
+        "afterbegin",
+        `
+    <!-- DIVIDER DIV -->
+    <div class="divider" id="${u.id}d">
+      <hr />
+    </div>
+      `
+      );
     }
   });
 

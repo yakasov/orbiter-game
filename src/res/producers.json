@@ -25,7 +25,7 @@
     "produces": 10,
     "reveal": {
       "type": "balance",
-      "amount": 50
+      "amount": 100
     },
     "element": {
       "name": "He"
@@ -37,12 +37,12 @@
     "id": "t1_p3",
     "name": "Lithium Miner",
     "plural": "miners",
-    "costStart": 10000,
+    "costStart": 7500,
     "costScale": 1.05,
     "produces": 250,
     "reveal": {
       "type": "producing",
-      "amount": 150
+      "amount": 100
     },
     "element": {
       "name": "Li"

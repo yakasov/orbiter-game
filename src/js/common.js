@@ -11,17 +11,23 @@ function f(n, decimals = 2) {
     return n.toString().split(".")[0].length - 1;
   }
 
-  if (n.gte(1e5)) {
+  if (n.lt(1e6)) {
+    const half1 = ns.slice(0, getLength(ns) - 2);
+    const half2 = ns.slice(getLength(ns) - 3, getLength(ns));
+    return `${half1},${half2}`;
+  } else if (n.lt(1e9)) {
+    const half1 = ns.slice(0, getLength(ns) - 5);
+    const half2 = ns.slice(getLength(ns) - 5, getLength(ns) - 2);
+    const half3 = ns.slice(getLength(ns) - 3, getLength(ns));
+    return `${half1},${half2},${half3}`;
+  } else {
     return `${ns[0]}.${ns[1]}${ns[2]}e${getLength(n)}`;
   }
-
-  return n.toFixed(0);
 }
 
 function switchAffects(n, o, a) {
   // affect n by a using op o
   if (typeof n == "number") n = new Decimal(n);
-  console.log(n, o, a);
 
   switch (o) {
     case "add":

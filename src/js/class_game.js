@@ -22,7 +22,7 @@ class Game {
 
   buyMax(n) {
     var p = this.producers[n];
-    var tempCostNow = new Decimal(p.costNow);
+    var tempCostNow = new Decimal(0);
 
     while (gl.ec.balance.gte(tempCostNow)) {
       tempCostNow = p.amount
@@ -30,8 +30,10 @@ class Game {
         .mul(p.costStart)
         .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
 
-      p.amount = p.amount.plus(1);
-      gl.ec.removeFromBalance(tempCostNow);
+      if (gl.ec.balance.sub(tempCostNow).gte(0)) {
+        p.amount = p.amount.plus(1);
+        gl.ec.removeFromBalance(tempCostNow);
+      }
     }
   }
 
