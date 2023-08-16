@@ -1,4 +1,4 @@
-const updateLoopInterval = 25;
+const updateLoopInterval = 50;
 const saveGameInterval = 10000;
 
 function f(n, decimals = 2) {

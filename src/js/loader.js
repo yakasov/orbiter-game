@@ -222,7 +222,7 @@ var loadedGame = false;
   <div id="${p.id}g" class="hidden content-group">
     <div class="left">
       <div class="subgroup">
-        <p class="inline push-right">${p.name}s</p>
+        <p class="no-margin">${p.name}s</p>
         <div>
           <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
             Buy 1 ${p.name} for ${p.costNow}
@@ -233,12 +233,12 @@ var loadedGame = false;
         </div>
       </div>
       <div class="stat-group">
-        <p class="inline amount grey glow left" id="${p.id}a">0</p>
-        <p class="inline amount grey glow right" id="${p.id}p">0</p>
+        <p class="no-margin amount grey glow left" id="${p.id}a">0</p>
+        <p class="no-margin amount grey glow right" id="${p.id}p">0</p>
       </div>
       <div class="stat-group">
-        <p class="inline amount grey left" id="${p.id}ed">0</p>
-        <p class="inline amount grey right" id="${p.id}ea">0</p>
+        <p class="no-margin amount grey left" id="${p.id}ed">0</p>
+        <p class="no-margin amount grey right" id="${p.id}ea">0</p>
       </div>
     </div>
   </div>
@@ -257,16 +257,16 @@ var loadedGame = false;
   <!-- ${u.name}s -->
   <div id="${u.id}g" class="hidden right">
     <div class="subgroup">
-      <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
+      <button id="${u.id}b" onclick="gl.gm.buyUpgrade(${i})">
           Buy Upgrade for ${u.cost}
       </button>
-      <p class="inline">${u.name}</p>
+      <p class="no-margin">${u.name}</p>
     </div>
     <div class="stat-group">
-      <p class="inline amount grey glow left" id="${u.id}p">
+      <p class="no-margin amount grey glow left" id="${u.id}p">
           ${u.desc}
       </p>
-      <p class="inline amount grey glow right" id="${u.id}a">
+      <p class="no-margin amount grey glow right" id="${u.id}a">
           ${u.subdesc}
       </p>
     </div>

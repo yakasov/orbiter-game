@@ -39,8 +39,7 @@ button {
   background: rgba(0, 0, 0, 0.85);
 }
 
-.inline {
-  display: inline;
+.no-margin {
   margin: 0;
 }
 
@@ -76,32 +75,14 @@ button {
   flex-wrap: wrap;
 }
 
-.center-group {
-  flex: 16%;
-  text-align: center;
-}
-
-.right-group {
-  text-align: right;
-  margin-left: 5%;
-}
-
-.left-group {
-  margin-right: 5%;
-}
-
 .left {
-  max-width: 50%;
   width: 47%;
-  margin-left: 0;
   margin-right: 3%;
   text-align: left;
 }
 
 .right {
-  max-width: 50%;
   width: 47%;
-  margin-right: 0;
   margin-left: 3%;
   text-align: right;
 }
@@ -123,10 +104,6 @@ button {
   line-height: 1.8em;
 }
 
-.push-right {
-  margin-right: 10%;
-}
-
 .amount {
   font-style: italic;
 }
@@ -139,10 +116,6 @@ button {
 
 .grey {
   color: #ccc;
-}
-
-.dark-grey {
-  color: #777;
 }
 
 .scary {
@@ -174,12 +147,6 @@ button {
 
 .no-strikethrough {
   text-decoration: none;
-}
-
-.divider {
-  text-align: center;
-  font-style: italic;
-  margin-bottom: 27px;
 }
 
 @keyframes fade-out {
@@ -232,28 +199,3 @@ button {
 hr {
   margin-top: 32px;
 }
-
-/* * {
-  outline: 2px dotted red;
-}
-* * {
-  outline: 2px dotted green;
-}
-* * * {
-  outline: 2px dotted orange;
-}
-* * * * {
-  outline: 2px dotted blue;
-}
-* * * * * {
-  outline: 1px solid red;
-}
-* * * * * * {
-  outline: 1px solid green;
-}
-* * * * * * * {
-  outline: 1px solid orange;
-}
-* * * * * * * * {
-  outline: 1px solid blue;
-} */
