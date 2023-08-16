@@ -5,6 +5,8 @@ class GameLoop {
     this.ds = new Display();
     this.ac = new Achievements();
     this.loadedSave = false;
+
+    this.ignoreMessage = "Cannot read properties of undefined (reading 'bind')";
   }
 
   main() {
@@ -12,26 +14,42 @@ class GameLoop {
       try {
         // Run game updates
         this.gm.updateLoop().bind(this);
-      } catch {}
+      } catch (e) {
+        if (e.message != this.ignoreMessage) {
+          console.error(e);
+        }
+      }
     }, updateLoopInterval);
     setInterval(() => {
       try {
         // Run display updates
         this.ds.updateLoop().bind(this);
-      } catch {}
+      } catch (e) {
+        if (e.message != this.ignoreMessage) {
+          console.error(e);
+        }
+      }
     }, updateLoopInterval);
     setInterval(() => {
       try {
         // Run economy updates
         this.ec.updateLoop().bind(this);
-      } catch {}
+      } catch (e) {
+        if (e.message != this.ignoreMessage) {
+          console.error(e);
+        }
+      }
     }, updateLoopInterval);
 
     setInterval(() => {
       try {
         // Run achievement updates @ 100ms
         this.ac.updateLoop().bind(this);
-      } catch {}
+      } catch (e) {
+        if (e.message != this.ignoreMessage) {
+          console.error(e);
+        }
+      }
     }, 100);
 
     setInterval(() => {

@@ -17,38 +17,6 @@ class Display {
     }
   }
 
-  handleReveal(u, p) {
-    if (p) {
-      const p1 =
-        p.revealType == "balance"
-          ? gl.ec.balance
-          : p.revealType == "producing"
-          ? gl.gm.producing
-          : p.amount;
-      const p2 = p.revealAmount;
-      return p1.gte(p2);
-    }
-
-    if (u) {
-      var uRequirements;
-      if (u.revealSource) {
-        uRequirements = gl.gm.producers.filter((p) =>
-          u.revealSource.includes(p.id)
-        );
-      } else {
-        uRequirements = gl.gm.producers.filter((p) => u.affects.includes(p.id));
-      }
-
-      return uRequirements.every((pr) => {
-        const p1 = u.revealType == "balance" ? gl.ec.balance : pr.amount;
-        const p2 = u.revealAmount;
-        return p1.gte(p2);
-      });
-    }
-
-    return false;
-  }
-
   updateProducerDisplays(p) {
     const ela = document.getElementById(`${p.id}a`); // amount eg '12 quarks'
     const elb = document.getElementById(`${p.id}b`); // button string
@@ -58,7 +26,7 @@ class Display {
     const ele = document.getElementById(`${p.id}e`); // element group
 
     if (elg) {
-      if (elg.classList.contains("hidden") && this.handleReveal(null, p)) {
+      if (elg.classList.contains("hidden") && p.reveal()) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
         p.revealTime = Date.now() / 1000;
@@ -101,7 +69,7 @@ class Display {
     const elub = document.getElementById(`${u.id}b`); // button
 
     if (elg) {
-      if (elg.classList.contains("hidden") && this.handleReveal(u, null)) {
+      if (elg.classList.contains("hidden") && u.reveal()) {
         elg.classList.remove("hidden");
         elg.classList.add("fade-in");
         u.revealTime = Date.now() / 1000;

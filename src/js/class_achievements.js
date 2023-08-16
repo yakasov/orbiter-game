@@ -4,31 +4,9 @@ class Achievements {
     this.achievementGlobalBoosts = [];
   }
 
-  achievementSwitch(type) {
-    switch (type) {
-      case "producer":
-        return gl.gm.producers;
-      case "upgrade":
-        return gl.gm.upgrades;
-      case "balance":
-        return gl.ec.balance;
-      case "producing":
-        return gl.gm.producing;
-    }
-  }
-
   checkAchievements() {
     achievements.forEach((a) => {
-      const source = this.achievementSwitch(a.args.type);
-      const obj = ["balance", "producing"].includes(a.args.type)
-        ? { val: source }
-        : source.filter((x) => x.id == a.args.id)[0];
-
-      if (
-        (obj.amount && obj.amount.gte(new Decimal(a.args.amount))) ||
-        obj.bought ||
-        (!obj.amount && !obj.bought && obj.val.gte(a.args.amount))
-      ) {
+      if (a.unlock()) {
         a.achieved = true;
       }
 
@@ -38,7 +16,8 @@ class Achievements {
       ) {
         this.markAchievementAsAchieved(a);
 
-        if (a.effs) this.handleAchievementEffects(a);
+        if (a.bonus)
+          this.achievementGlobalBoosts = this.achievementGlobalBoosts.concat(a);
       }
     });
   }
@@ -56,18 +35,9 @@ class Achievements {
 
       if (i == "e") {
         el.classList.add("glow");
-        el.innerText = a.effs.desc;
+        el.innerText = a.bonusDesc ?? "⠀";
       }
     });
-  }
-
-  handleAchievementEffects(a) {
-    if (a.effs.type == "producing") {
-      this.achievementGlobalBoosts = this.achievementGlobalBoosts.concat({
-        op: a.effs.op,
-        amount: a.effs.amount,
-      });
-    }
   }
 
   updateLoop() {

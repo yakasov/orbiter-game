@@ -8,40 +8,20 @@ function f(n, decimals = 2) {
   const ns = n.toString();
 
   function getLength(n) {
-    return n.toString().split(".")[0].length - 1;
+    return n.toString().split(".")[0].length;
   }
 
   if (n.lt(1e6)) {
-    const half1 = ns.slice(0, getLength(ns) - 2);
+    const half1 = ns.slice(0, getLength(ns) - 3);
     const half2 = ns.slice(getLength(ns) - 3, getLength(ns));
     return `${half1},${half2}`;
   } else if (n.lt(1e9)) {
-    const half1 = ns.slice(0, getLength(ns) - 5);
-    const half2 = ns.slice(getLength(ns) - 5, getLength(ns) - 2);
+    const half1 = ns.slice(0, getLength(ns) - 6);
+    const half2 = ns.slice(getLength(ns) - 6, getLength(ns) - 3);
     const half3 = ns.slice(getLength(ns) - 3, getLength(ns));
     return `${half1},${half2},${half3}`;
   } else {
     return `${ns[0]}.${ns[1]}${ns[2]}e${getLength(n)}`;
-  }
-}
-
-function switchAffects(n, o, a) {
-  // affect n by a using op o
-  if (typeof n == "number") n = new Decimal(n);
-
-  switch (o) {
-    case "add":
-      return n.add(a);
-    case "sub":
-      return n.sub(a);
-    case "mul":
-      return n.mul(a);
-    case "div":
-      return n.div(a);
-    case "pow":
-      return n.pow(a);
-    case "log":
-      return n.log(a);
   }
 }
 

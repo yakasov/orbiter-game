@@ -45,33 +45,18 @@ class Game {
     }
   }
 
-  handleUpgrade(u, p) {
-    if (u.bonusType == "bonusAmount") {
-      this.upgradeBoosts = this.upgradeBoosts.concat({
-        affects: u.affects[0],
-        source: u.bonusOp,
-        ratio: u.bonusAmount,
-      });
+  handleUpgrade(u) {
+    if (u.bonusAmountEffect) {
+      this.upgradeBoosts = this.upgradeBoosts.concat(u);
     } else {
-      p[u.bonusType] = switchAffects(p[u.bonusType], u.bonusOp, u.bonusAmount);
-    }
-
-    if (u.affects.slice(-1) == p.id) {
+      u.bonus();
       u.applied = true;
     }
   }
 
-  updateBoosts() {
-    this.upgradeBoosts.forEach((b) => {
-      const affectsProducer = producers.filter((p) => p.id == b.affects)[0];
-      const sourceProducer = producers.filter((p) => p.id == b.source)[0];
-
-      affectsProducer.bonusAmount = sourceProducer.elementAmount.mul(b.ratio);
-    });
-  }
-
   updateGameInternals(p) {
-    this.updateBoosts();
+    this.upgradeBoosts.forEach((u) => u.bonus());
+
     p.costNow = p.amount
       .add(1)
       .mul(p.costStart)
@@ -81,9 +66,9 @@ class Game {
     p.producesNow = p.producesFirst.mul(p.amount.add(p.bonusAmount));
 
     this.upgrades
-      .filter((u) => u.affects.includes(p.id) && u.bought && !u.applied)
+      .filter((u) => u.affects().includes(p) && u.bought && !u.applied)
       .forEach((u) => {
-        this.handleUpgrade(u, p);
+        this.handleUpgrade(u);
       });
   }
 
@@ -101,7 +86,7 @@ class Game {
       this.producing = this.producing.add(p.producesNow);
     });
     gl.ac.achievementGlobalBoosts.forEach((b) => {
-      this.producing = switchAffects(this.producing, b.op, b.amount);
+      b.bonus();
     });
 
     gl.ec.addToBalance(this.producing.div(1000 / updateLoopInterval));
