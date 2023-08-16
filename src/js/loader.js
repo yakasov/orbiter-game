@@ -25,8 +25,7 @@ class Producer {
     this.producesFirst = new Decimal(produces);
     this.producesNow = new Decimal(0);
 
-    this.revealType = reveal.type;
-    this.revealAmount = reveal.amount;
+    this.reveal = reveal;
     this.revealTime;
 
     this.elementName = element.name;
@@ -42,13 +41,15 @@ class Upgrade {
   constructor(
     tab,
     id,
-    affects,
     name,
     desc,
     subdesc,
     cost,
+    affects,
     bonus,
+    bonusAmountEffect,
     reveal,
+    source,
     dividerAbove
   ) {
     this.tab = tab;
@@ -62,13 +63,11 @@ class Upgrade {
     this.applied = false;
 
     this.cost = new Decimal(cost);
-    this.bonusType = bonus.type;
-    this.bonusOp = bonus.op;
-    this.bonusAmount = bonus.amount;
+    this.bonus = bonus;
+    this.bonusAmountEffect = bonusAmountEffect;
 
-    this.revealType = reveal.type;
-    this.revealSource = reveal.source;
-    this.revealAmount = reveal.amount;
+    this.reveal = reveal;
+    this.source = source;
     this.revealTime;
 
     this.dividerAbove = dividerAbove;
@@ -120,14 +119,10 @@ var tabs = {
 
 var producers = [];
 var upgrades = [];
-var achievements = [];
+var achievements = rawAchievements;
 var loadedGame = false;
 
 (async () => {
-  async function loadJson(l) {
-    return fetch(l).then((r) => r.json());
-  }
-
   function getHTML(i) {
     switch (i.id) {
       case "achievements":
@@ -163,11 +158,11 @@ var loadedGame = false;
     }
   }
 
-  const loadedProducers = await loadJson("./src/res/producers.json");
-  const loadedUpgrades = await loadJson("./src/res/upgrades.json");
-  achievements = await loadJson("./src/res/achievements.json");
+  // const loadedProducers = await loadJson("./src/res/producers.json");
+  // const loadedUpgrades = await loadJson("./src/res/upgrades.json");
+  // achievements = await loadJson("./src/res/achievements.json");
 
-  loadedProducers.forEach((p) => {
+  rawProducers.forEach((p) => {
     const pr = new Producer(
       p.tab,
       p.id,
@@ -184,17 +179,19 @@ var loadedGame = false;
     producers = producers.concat(pr);
   });
 
-  loadedUpgrades.forEach((u) => {
+  rawUpgrades.forEach((u) => {
     const up = new Upgrade(
       u.tab,
       u.id,
-      u.affects,
       u.name,
       u.desc,
       u.subdesc,
       u.cost,
+      u.affects,
       u.bonus,
+      u.bonusAmountEffect ?? false,
       u.reveal,
+      u.source,
       u.dividerAbove ?? false
     );
     upgrades = upgrades.concat(up);
@@ -329,7 +326,7 @@ var loadedGame = false;
   const achNames = document.getElementById("achievements_names");
   const achReqs = document.getElementById("achievements_reqs");
   const achEffs = document.getElementById("achievements_effs");
-  achievements.forEach((a) => {
+  rawAchievements.forEach((a) => {
     achNames.innerHTML += `
   <p id="ach${a.id}_n" class="unachieved">${a.id}: ${a.name}</p>
   `;
@@ -338,7 +335,7 @@ var loadedGame = false;
   `;
     achEffs.innerHTML += `
   <p id="ach${a.id}_e" class="unachieved no-strikethrough">${
-      a.effs ? "?" : "⠀"
+      a.bonusDesc ? "?" : "⠀"
     }</p>
   `;
   });
