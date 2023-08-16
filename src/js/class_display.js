@@ -23,7 +23,7 @@ class Display {
     const elg = document.getElementById(`${p.id}g`); // group for visibility
     const elp = document.getElementById(`${p.id}p`); // producing eg '50 matter /s'
     const elea = document.getElementById(`${p.id}ea`); // element amount
-    const ele = document.getElementById(`${p.id}e`); // element group
+    const eled = document.getElementById(`${p.id}ed`); // element desc
 
     if (elg) {
       if (elg.classList.contains("hidden") && p.reveal()) {
@@ -40,18 +40,21 @@ class Display {
       }
     }
 
-    if (ele) {
-      if (ele.classList.contains("hidden") && p.amount.gte(1)) {
-        ele.classList.remove("hidden");
-        ele.classList.add("fade-in");
+    if (elea && eled) {
+      if (elea.classList.contains("hidden") && p.amount.gte(1)) {
+        elea.classList.remove("hidden");
+        eled.classList.remove("hidden");
+        elea.classList.add("fade-in");
+        eled.classList.add("fade-in");
         p.elementRevealTime = Date.now() / 1000;
       }
 
       if (
-        ele.classList.contains("fade-in") &&
+        elea.classList.contains("fade-in") &&
         Date.now() / 1000 > p.elementRevealTime + 1
       ) {
-        ele.classList.remove("fade-in");
+        elea.classList.remove("fade-in");
+        eled.classList.remove("fade-in");
       }
     }
 
@@ -62,6 +65,10 @@ class Display {
     if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
     if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
     if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;
+    if (eled)
+      eled.innerText = `Producing ${f(p.amount.add(p.bonusAmount))} ${
+        p.elementName
+      } /s`;
   }
 
   updateUpgradeDisplays(u) {

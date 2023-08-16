@@ -7,7 +7,7 @@ const rawProducers = [
     costStart: 10,
     costScale: 1.05,
     produces: 1,
-    reveal: () => {
+    reveal: function () {
       return true;
     },
     element: {
@@ -22,23 +22,22 @@ const rawProducers = [
     costStart: 200,
     costScale: 1.09,
     produces: 10,
-    reveal: () => {
+    reveal: function () {
       return gl.ec.balance.gte(100);
     },
     element: {
       name: "He",
     },
-    spacesBelow: 1,
   },
   {
     tab: 1,
     id: "t1_p3",
     name: "Lithium Miner",
     plural: "miners",
-    costStart: 7500,
+    costStart: 5000,
     costScale: 1.05,
-    produces: 250,
-    reveal: () => {
+    produces: 125,
+    reveal: function () {
       return gl.gm.producing.gte(100);
     },
     element: {
@@ -50,15 +49,30 @@ const rawProducers = [
     tab: 1,
     id: "t1_p4",
     name: "Beryllium Forager",
-    plural: "miners",
+    plural: "foragers",
     costStart: 40000,
     costScale: 1.05,
-    produces: 1250,
-    reveal: () => {
+    produces: 750,
+    reveal: function () {
       return gl.ec.balance.gte(20000);
     },
     element: {
       name: "Be",
+    },
+  },
+  {
+    tab: 1,
+    id: "t1_p5",
+    name: "Boron Borer",
+    plural: "borers",
+    costStart: 3.5e5,
+    costScale: 1.03,
+    produces: 3500,
+    reveal: function () {
+      return gl.ec.balance.gte(1e5);
+    },
+    element: {
+      name: "B",
     },
   },
 ];

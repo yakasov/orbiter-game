@@ -40,6 +40,7 @@ button {
 }
 
 .inline {
+  display: inline;
   margin: 0;
 }
 
@@ -69,6 +70,12 @@ button {
   margin-right: 10px;
 }
 
+.content-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .center-group {
   flex: 16%;
   text-align: center;
@@ -76,17 +83,26 @@ button {
 
 .right-group {
   text-align: right;
+  margin-left: 5%;
+}
+
+.left-group {
+  margin-right: 5%;
 }
 
 .left {
+  max-width: 50%;
+  width: 47%;
   margin-left: 0;
-  margin-right: 2%;
+  margin-right: 3%;
   text-align: left;
 }
 
 .right {
+  max-width: 50%;
+  width: 47%;
   margin-right: 0;
-  margin-left: 2%;
+  margin-left: 3%;
   text-align: right;
 }
 
@@ -94,6 +110,7 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 32px;
   margin-bottom: 12px;
 }
 
@@ -102,8 +119,8 @@ button {
   flex-direction: row;
   justify-content: space-between;
   font-size: 16px;
-  margin-top: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 4px;
+  line-height: 1.8em;
 }
 
 .push-right {
@@ -210,6 +227,10 @@ button {
 
 .pulse {
   animation: pulse 2s infinite;
+}
+
+hr {
+  margin-top: 32px;
 }
 
 /* * {

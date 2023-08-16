@@ -21,7 +21,7 @@ function f(n, decimals = 2) {
     const half3 = ns.slice(getLength(ns) - 3, getLength(ns));
     return `${half1},${half2},${half3}`;
   } else {
-    return `${ns[0]}.${ns[1]}${ns[2]}e${getLength(n)}`;
+    return `${ns[0]}.${ns[1]}${ns[2]}e${getLength(n) - 1}`;
   }
 }
 

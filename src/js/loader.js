@@ -9,7 +9,6 @@ class Producer {
     produces,
     reveal,
     element,
-    spacesBelow,
     dividerAbove
   ) {
     this.tab = tab;
@@ -32,7 +31,6 @@ class Producer {
     this.elementAmount = new Decimal(0);
     this.elementRevealTime;
 
-    this.spacesBelow = spacesBelow;
     this.dividerAbove = dividerAbove;
   }
 }
@@ -50,7 +48,7 @@ class Upgrade {
     bonusAmountEffect,
     reveal,
     source,
-    dividerAbove
+    align
   ) {
     this.tab = tab;
     this.id = id;
@@ -70,7 +68,7 @@ class Upgrade {
     this.source = source;
     this.revealTime;
 
-    this.dividerAbove = dividerAbove;
+    this.align = align;
   }
 }
 
@@ -146,21 +144,11 @@ var loadedGame = false;
         </div>`;
       default:
         return `
-        <div class="group left-group" id="${i.id}_producers">
-          <h2>${i.name}</h2>
-        </div>
-        <div class="group center-group" id="${i.id}_elements">
-          <h2>Elements</h2>
-        </div>
-        <div class="group right-group" id="${i.id}_upgrades">
-          <h2>${i.name} Upgrades</h2>
+        <div class="group" id="${i.id}_content">
+          <h2 style="margin: 0;">${i.name}</h2>
         </div>`;
     }
   }
-
-  // const loadedProducers = await loadJson("./src/res/producers.json");
-  // const loadedUpgrades = await loadJson("./src/res/upgrades.json");
-  // achievements = await loadJson("./src/res/achievements.json");
 
   rawProducers.forEach((p) => {
     const pr = new Producer(
@@ -173,7 +161,6 @@ var loadedGame = false;
       p.produces,
       p.reveal,
       p.element,
-      p.spacesBelow ?? 0,
       p.dividerAbove ?? false
     );
     producers = producers.concat(pr);
@@ -192,7 +179,7 @@ var loadedGame = false;
       u.bonusAmountEffect ?? false,
       u.reveal,
       u.source,
-      u.dividerAbove ?? false
+      u.align
     );
     upgrades = upgrades.concat(up);
   });
@@ -226,72 +213,49 @@ var loadedGame = false;
   });
 
   producers.forEach((p, i) => {
-    const leftGroup = document.getElementById(`${tabs[p.tab].id}_producers`);
+    const leftGroup = document.getElementById(`${tabs[p.tab].id}_content`);
+
+    if (p.dividerAbove) leftGroup.innerHTML += `<hr style="width:20%" />`;
+
     leftGroup.innerHTML += `
   <!-- ${p.name}s -->
-  <div id="${p.id}g" class="hidden">
-    <div class="subgroup">
-      <p class="inline push-right">${p.name}s</p>
-      <div>
-        <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
-          Buy 1 ${p.name} for ${p.costNow}
-        </button>
-        <button id="${p.id}bm" onclick="gl.gm.buyMax(${i})">
-          Buy max
-        </button>
-      </div>
-    </div>
-    <div class="stat-group">
-      <p class="inline amount grey glow left" id="${p.id}a">0</p>
-      <p class="inline amount grey glow right" id="${p.id}p">0</p>
-    </div>
-  </div>
-  `;
-
-    if (p.spacesBelow) {
-      const producerGroup = document.getElementById(`${p.id}g`);
-      for (var s = 0; s < p.spacesBelow; s++) {
-        producerGroup.innerHTML += `
-      <!-- START SPACING DIV -->
+  <div id="${p.id}g" class="hidden content-group">
+    <div class="left">
       <div class="subgroup">
-        <p class="inline">⠀</p>
+        <p class="inline push-right">${p.name}s</p>
+        <div>
+          <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
+            Buy 1 ${p.name} for ${p.costNow}
+          </button>
+          <button id="${p.id}bm" onclick="gl.gm.buyMax(${i})">
+            Buy max
+          </button>
+        </div>
       </div>
       <div class="stat-group">
-        <p class="inline">⠀</p>
+        <p class="inline amount grey glow left" id="${p.id}a">0</p>
+        <p class="inline amount grey glow right" id="${p.id}p">0</p>
       </div>
-      <!-- END SPACING DIV -->
-        `;
-      }
-    }
-
-    if (p.dividerAbove) {
-      const producerGroup = document.getElementById(`${p.id}g`);
-      producerGroup.insertAdjacentHTML(
-        "afterbegin",
-        `
-      <!-- DIVIDER DIV -->
-      <div class="divider" id="${p.id}d">
-        <hr />
+      <div class="stat-group">
+        <p class="inline amount grey left" id="${p.id}ed">0</p>
+        <p class="inline amount grey right" id="${p.id}ea">0</p>
       </div>
-        `
-      );
-    }
-
-    const centerGroup = document.getElementById(`${tabs[p.tab].id}_elements`);
-    centerGroup.innerHTML += `
-  <div class="hidden" id="${p.id}e">
-    <div class="subgroup" style="display: block">
-      <p class="center inline" id="${p.id}ea">0</p>
     </div>
   </div>
   `;
   });
 
   upgrades.forEach((u, i) => {
-    const rightGroup = document.getElementById(`${tabs[u.tab].id}_upgrades`);
+    const rightGroup = document.getElementById(`${u.align}g`);
+
+    if (rightGroup.children.length == 2) {
+      const ghostGroup = rightGroup.children[0].cloneNode();
+      rightGroup.insertAdjacentElement("beforeEnd", ghostGroup);
+    }
+
     rightGroup.innerHTML += `
   <!-- ${u.name}s -->
-  <div id="${u.id}g" class="hidden">
+  <div id="${u.id}g" class="hidden right">
     <div class="subgroup">
       <button id="${u.id}b" class="push-right" onclick="gl.gm.buyUpgrade(${i})">
           Buy Upgrade for ${u.cost}
@@ -308,19 +272,6 @@ var loadedGame = false;
     </div>
   </div>
   `;
-
-    if (u.dividerAbove) {
-      const upgradeGroup = document.getElementById(`${u.id}g`);
-      upgradeGroup.insertAdjacentHTML(
-        "afterbegin",
-        `
-    <!-- DIVIDER DIV -->
-    <div class="divider" id="${u.id}d">
-      <hr />
-    </div>
-      `
-      );
-    }
   });
 
   const achNames = document.getElementById("achievements_names");

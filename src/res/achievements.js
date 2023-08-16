@@ -26,9 +26,9 @@ const rawAchievements = [
       return p.amount.gte(1);
     },
     bonus: function () {
-      gl.gm.producing = gl.gm.producing.mul(1.1);
+      gl.gm.producing = gl.gm.producing.mul(1.05);
     },
-    bonusDesc: "10% bonus to all production!",
+    bonusDesc: "5% bonus to all production!",
   },
   {
     id: 4,
@@ -36,6 +36,15 @@ const rawAchievements = [
     reqs: "Produce 1000 matter a second",
     unlock: function () {
       return gl.gm.producing.gte(1000);
+    },
+  },
+  {
+    id: 5,
+    name: "My First Metalloid",
+    reqs: "Purchase your first metalloid",
+    unlock: function () {
+      const p = producers.filter((p) => p.id == "t1_p5")[0];
+      return p.amount.gte(1);
     },
   },
 ];
