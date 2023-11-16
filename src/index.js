@@ -15,7 +15,10 @@ class GameLoop {
         // Run game updates
         this.gm.updateLoop().bind(this);
       } catch (e) {
-        if (e.message != this.ignoreMessage) {
+        if (
+          e.message != this.ignoreMessage &&
+          e.message != "this.gm.updateLoop() is undefined"
+        ) {
           console.error(e);
         }
       }
@@ -25,7 +28,10 @@ class GameLoop {
         // Run display updates
         this.ds.updateLoop().bind(this);
       } catch (e) {
-        if (e.message != this.ignoreMessage) {
+        if (
+          e.message != this.ignoreMessage &&
+          e.message != "this.ds.updateLoop() is undefined"
+        ) {
           console.error(e);
         }
       }
@@ -35,7 +41,10 @@ class GameLoop {
         // Run economy updates
         this.ec.updateLoop().bind(this);
       } catch (e) {
-        if (e.message != this.ignoreMessage) {
+        if (
+          e.message != this.ignoreMessage &&
+          e.message != "this.ec.updateLoop() is undefined"
+        ) {
           console.error(e);
         }
       }
@@ -46,7 +55,10 @@ class GameLoop {
         // Run achievement updates @ 100ms
         this.ac.updateLoop().bind(this);
       } catch (e) {
-        if (e.message != this.ignoreMessage) {
+        if (
+          e.message != this.ignoreMessage &&
+          e.message != "this.ac.updateLoop() is undefined"
+        ) {
           console.error(e);
         }
       }

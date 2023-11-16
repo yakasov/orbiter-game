@@ -225,7 +225,7 @@ var loadedGame = false;
         <p class="no-margin">${p.name}s</p>
         <div>
           <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
-            Buy 1 ${p.name} for ${p.costNow}
+            Buy 1 ${p.name} for ${f(p.costNow)}
           </button>
           <button id="${p.id}bm" onclick="gl.gm.buyMax(${i})">
             Buy max
@@ -258,7 +258,7 @@ var loadedGame = false;
   <div id="${u.id}g" class="hidden right">
     <div class="subgroup">
       <button id="${u.id}b" onclick="gl.gm.buyUpgrade(${i})">
-          Buy Upgrade for ${u.cost}
+          Buy Upgrade for ${f(u.cost)}
       </button>
       <p class="no-margin">${u.name}</p>
     </div>

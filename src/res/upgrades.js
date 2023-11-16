@@ -1,3 +1,13 @@
+function getAffects(ps) {
+  return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+}
+
+function getReveal(s, a = 2) {
+  return s.every((p) => {
+    return p.amount.gte(a);
+  });
+}
+
 const rawUpgrades = [
   {
     tab: 1,
@@ -8,8 +18,7 @@ const rawUpgrades = [
     subdesc: "Motivate your little gatherers",
     cost: 100,
     affects: function () {
-      const ps = ["t1_p1"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p1"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
@@ -17,10 +26,7 @@ const rawUpgrades = [
       });
     },
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(2);
-      });
+      return getReveal(this.affects());
     },
   },
   {
@@ -32,8 +38,7 @@ const rawUpgrades = [
     subdesc: "Improve hunter bows, decreasing replacement costs",
     cost: 1500,
     affects: function () {
-      const ps = ["t1_p2"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p2"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
@@ -41,10 +46,7 @@ const rawUpgrades = [
       });
     },
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(2);
-      });
+      return getReveal(this.affects());
     },
   },
   {
@@ -56,8 +58,7 @@ const rawUpgrades = [
     subdesc: "Work out a deal for some cheaper collectors",
     cost: 5000,
     affects: function () {
-      const ps = ["t1_p1", "t1_p2"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p1", "t1_p2"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
@@ -65,10 +66,7 @@ const rawUpgrades = [
       });
     },
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(5);
-      });
+      return getReveal(this.affects(), 5);
     },
   },
   {
@@ -80,24 +78,16 @@ const rawUpgrades = [
     subdesc: "Not related to a certain rabbit",
     cost: 50000,
     affects: function () {
-      const ps = ["t1_p1"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p1"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.bonusAmount = this.source()[0].elementAmount.mul(0.5);
+        p.bonusAmount = getAffects(["t1_p3"])[0].elementAmount.mul(0.5);
       });
     },
     bonusAmountEffect: true,
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(5);
-      });
-    },
-    source: function () {
-      const ps = ["t1_p3"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getReveal(getAffects(["t1_p3"]), 2);
     },
   },
   {
@@ -109,8 +99,7 @@ const rawUpgrades = [
     subdesc: "Beryllium pickaxes are better than nothing",
     cost: 50000,
     affects: function () {
-      const ps = ["t1_p3"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p3"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
@@ -118,14 +107,7 @@ const rawUpgrades = [
       });
     },
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(2);
-      });
-    },
-    source: function () {
-      const ps = ["t1_p4"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getReveal(getAffects(["t1_p4"]));
     },
   },
   {
@@ -137,24 +119,16 @@ const rawUpgrades = [
     subdesc: "Excess boron can strengthen helium structures",
     cost: 1e6,
     affects: function () {
-      const ps = ["t1_p2"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getAffects(["t1_p2"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.bonusAmount = this.source()[0].elementAmount.mul(0.5);
+        p.bonusAmount = getAffects(["t1_p5"])[0].elementAmount.mul(0.5);
       });
     },
     bonusAmountEffect: true,
     reveal: function () {
-      const s = this.source ? this.source() : this.affects();
-      return s.every((p) => {
-        return p.amount.gte(1);
-      });
-    },
-    source: function () {
-      const ps = ["t1_p5"];
-      return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
+      return getReveal(getAffects(["t1_p5"]), 1);
     },
   },
 ];

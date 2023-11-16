@@ -19,11 +19,11 @@ const rawProducers = [
     id: "t1_p2",
     name: "Helium Hunter",
     plural: "hunters",
-    costStart: 200,
+    costStart: 150,
     costScale: 1.09,
     produces: 10,
     reveal: function () {
-      return gl.ec.balance.gte(100);
+      return gl.ec.balance.gte(75);
     },
     element: {
       name: "He",
@@ -34,11 +34,11 @@ const rawProducers = [
     id: "t1_p3",
     name: "Lithium Miner",
     plural: "miners",
-    costStart: 5000,
+    costStart: 3000,
     costScale: 1.05,
     produces: 125,
     reveal: function () {
-      return gl.gm.producing.gte(100);
+      return gl.gm.producing.gte(50);
     },
     element: {
       name: "Li",
@@ -50,11 +50,11 @@ const rawProducers = [
     id: "t1_p4",
     name: "Beryllium Forager",
     plural: "foragers",
-    costStart: 40000,
+    costStart: 20000,
     costScale: 1.05,
     produces: 750,
     reveal: function () {
-      return gl.ec.balance.gte(20000);
+      return gl.ec.balance.gte(10000);
     },
     element: {
       name: "Be",
@@ -65,11 +65,11 @@ const rawProducers = [
     id: "t1_p5",
     name: "Boron Borer",
     plural: "borers",
-    costStart: 3.5e5,
+    costStart: 1.5e5,
     costScale: 1.03,
     produces: 3500,
     reveal: function () {
-      return gl.ec.balance.gte(1e5);
+      return gl.ec.balance.gte(50000);
     },
     element: {
       name: "B",
