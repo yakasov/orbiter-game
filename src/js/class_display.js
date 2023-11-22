@@ -18,82 +18,83 @@ class Display {
   }
 
   updateProducerDisplays(p) {
-    const ela = document.getElementById(`${p.id}a`); // amount eg '12 quarks'
-    const elb = document.getElementById(`${p.id}b`); // button string
-    const elg = document.getElementById(`${p.id}g`); // group for visibility
-    const elp = document.getElementById(`${p.id}p`); // producing eg '50 matter /s'
-    const elea = document.getElementById(`${p.id}ea`); // element amount
-    const eled = document.getElementById(`${p.id}ed`); // element desc
+    const elAmount = document.getElementById(`${p.id}Amount`);
+    const elBuy = document.getElementById(`${p.id}Button`);
+    const elGroup = document.getElementById(`${p.id}Group`);
+    const elProducing = document.getElementById(`${p.id}Producing`);
+    const elElementAmount = document.getElementById(`${p.id}ElementAmount`);
+    const elElementDesc = document.getElementById(`${p.id}ElementDesc`);
 
-    if (elg) {
-      if (elg.classList.contains("hidden") && p.reveal()) {
-        elg.classList.remove("hidden");
-        elg.classList.add("fade-in");
+    if (elGroup) {
+      if (elGroup.classList.contains("hidden") && p.reveal()) {
+        elGroup.classList.remove("hidden");
+        elGroup.classList.add("fade-in");
         p.revealTime = Date.now() / 1000;
       }
 
       if (
-        elg.classList.contains("fade-in") &&
+        elGroup.classList.contains("fade-in") &&
         Date.now() / 1000 > p.revealTime + 1
       ) {
-        elg.classList.remove("fade-in");
+        elGroup.classList.remove("fade-in");
       }
     }
 
-    if (elea && eled) {
-      if (elea.classList.contains("hidden") && p.amount.gte(1)) {
-        elea.classList.remove("hidden");
-        eled.classList.remove("hidden");
-        elea.classList.add("fade-in");
-        eled.classList.add("fade-in");
+    if (elElementAmount && elElementDesc) {
+      if (elElementAmount.classList.contains("hidden") && p.amount.gte(1)) {
+        elElementAmount.classList.remove("hidden");
+        elElementDesc.classList.remove("hidden");
+        elElementAmount.classList.add("fade-in");
+        elElementDesc.classList.add("fade-in");
         p.elementRevealTime = Date.now() / 1000;
       }
 
       if (
-        elea.classList.contains("fade-in") &&
+        elElementAmount.classList.contains("fade-in") &&
         Date.now() / 1000 > p.elementRevealTime + 1
       ) {
-        elea.classList.remove("fade-in");
-        eled.classList.remove("fade-in");
+        elElementAmount.classList.remove("fade-in");
+        elElementDesc.classList.remove("fade-in");
       }
     }
 
-    if (ela)
-      ela.innerText = `${f(p.amount, 0)} ${
+    if (elAmount)
+      elAmount.innerText = `${f(p.amount, 0)} ${
         p.bonusAmount.gt(0) ? "(+" + f(p.bonusAmount, 2) + ")" : ""
       } ${p.plural}`;
-    if (elb) elb.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
-    if (elp) elp.innerText = `${f(p.producesNow)} matter /s`;
-    if (elea) elea.innerText = `${f(p.elementAmount)} ${p.elementName}`;
-    if (eled)
-      eled.innerText = `Producing ${f(p.amount.add(p.bonusAmount))} ${
+    if (elBuy) elBuy.innerText = `Buy 1 ${p.name} for ${f(p.costNow)}`;
+    if (elProducing) elProducing.innerText = `${f(p.producesNow)} matter /s`;
+    if (elElementAmount)
+      elElementAmount.innerText = `${f(p.elementAmount)} ${p.elementName}`;
+    if (elElementDesc)
+      elElementDesc.innerText = `Producing ${f(p.amount.add(p.bonusAmount))} ${
         p.elementName
       } /s`;
   }
 
   updateUpgradeDisplays(u) {
-    const elg = document.getElementById(`${u.id}g`); // group for visibility
-    const elub = document.getElementById(`${u.id}b`); // button
+    const elGroup = document.getElementById(`${u.id}Group`);
+    const elBuy = document.getElementById(`${u.id}Button`);
 
-    if (elg) {
-      if (elg.classList.contains("hidden") && u.reveal()) {
-        elg.classList.remove("hidden");
-        elg.classList.add("fade-in");
+    if (elGroup) {
+      if (elGroup.classList.contains("hidden") && u.reveal()) {
+        elGroup.classList.remove("hidden");
+        elGroup.classList.add("fade-in");
         u.revealTime = Date.now() / 1000;
       }
 
       if (
-        elg.classList.contains("fade-in") &&
+        elGroup.classList.contains("fade-in") &&
         Date.now() / 1000 > u.revealTime + 1
       ) {
-        elg.classList.remove("fade-in");
+        elGroup.classList.remove("fade-in");
       }
     }
 
-    if (elub && u.bought) {
-      elub.innerText = "Bought!";
-      elub.classList.add("disabled");
-      elub.setAttribute("disabled", true);
+    if (elBuy && u.bought) {
+      elBuy.innerText = "Bought!";
+      elBuy.classList.add("disabled");
+      elBuy.setAttribute("disabled", true);
     }
   }
 

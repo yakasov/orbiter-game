@@ -219,26 +219,26 @@ var loadedGame = false;
 
     leftGroup.innerHTML += `
   <!-- ${p.name}s -->
-  <div id="${p.id}g" class="hidden content-group">
+  <div id="${p.id}Group" class="hidden content-group">
     <div class="left">
       <div class="subgroup">
         <p class="no-margin">${p.name}s</p>
         <div>
-          <button id="${p.id}b" onclick="gl.gm.buyProducer(${i})">
+          <button id="${p.id}Buy" onclick="gl.gm.buyProducer(${i})">
             Buy 1 ${p.name} for ${f(p.costNow)}
           </button>
-          <button id="${p.id}bm" onclick="gl.gm.buyMax(${i})">
+          <button id="${p.id}BuyMax" onclick="gl.gm.buyMax(${i})">
             Buy max
           </button>
         </div>
       </div>
       <div class="stat-group">
-        <p class="no-margin amount grey glow left" id="${p.id}a">0</p>
-        <p class="no-margin amount grey glow right" id="${p.id}p">0</p>
+        <p class="no-margin amount grey glow left" id="${p.id}Amount">0</p>
+        <p class="no-margin amount grey glow right" id="${p.id}Producing">0</p>
       </div>
       <div class="stat-group">
-        <p class="no-margin amount grey left" id="${p.id}ed">0</p>
-        <p class="no-margin amount grey right" id="${p.id}ea">0</p>
+        <p class="no-margin amount grey left" id="${p.id}ElementDesc">0</p>
+        <p class="no-margin amount grey right" id="${p.id}ElementAmount">0</p>
       </div>
     </div>
   </div>
@@ -246,7 +246,7 @@ var loadedGame = false;
   });
 
   upgrades.forEach((u, i) => {
-    const rightGroup = document.getElementById(`${u.align}g`);
+    const rightGroup = document.getElementById(`${u.align}Group`);
 
     if (rightGroup.children.length == 2) {
       const ghostGroup = rightGroup.children[0].cloneNode();
@@ -255,18 +255,18 @@ var loadedGame = false;
 
     rightGroup.innerHTML += `
   <!-- ${u.name}s -->
-  <div id="${u.id}g" class="hidden right">
+  <div id="${u.id}Group" class="hidden right">
     <div class="subgroup">
-      <button id="${u.id}b" onclick="gl.gm.buyUpgrade(${i})">
+      <button id="${u.id}Buy" onclick="gl.gm.buyUpgrade(${i})">
           Buy Upgrade for ${f(u.cost)}
       </button>
       <p class="no-margin">${u.name}</p>
     </div>
     <div class="stat-group">
-      <p class="no-margin amount grey glow left" id="${u.id}p">
+      <p class="no-margin amount grey glow left" id="${u.id}Producing">
           ${u.desc}
       </p>
-      <p class="no-margin amount grey glow right" id="${u.id}a">
+      <p class="no-margin amount grey glow right" id="${u.id}Amount">
           ${u.subdesc}
       </p>
     </div>
@@ -279,13 +279,13 @@ var loadedGame = false;
   const achEffs = document.getElementById("achievements_effs");
   rawAchievements.forEach((a) => {
     achNames.innerHTML += `
-  <p id="ach${a.id}_n" class="unachieved">${a.id}: ${a.name}</p>
+  <p id="ach${a.id}Name" class="unachieved">${a.id}: ${a.name}</p>
   `;
     achReqs.innerHTML += `
-  <p id="ach${a.id}_r" class="unachieved">${a.reqs}</p>
+  <p id="ach${a.id}Reqs" class="unachieved">${a.reqs}</p>
   `;
     achEffs.innerHTML += `
-  <p id="ach${a.id}_e" class="unachieved no-strikethrough">${
+  <p id="ach${a.id}Effect" class="unachieved no-strikethrough">${
       a.bonusDesc ? "?" : "⠀"
     }</p>
   `;

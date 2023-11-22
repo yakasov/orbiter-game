@@ -12,7 +12,9 @@ class Achievements {
 
       if (
         a.achieved &&
-        document.getElementById(`ach${a.id}_n`).classList.contains("unachieved")
+        document
+          .getElementById(`ach${a.id}Name`)
+          .classList.contains("unachieved")
       ) {
         this.markAchievementAsAchieved(a);
 
@@ -28,12 +30,12 @@ class Achievements {
       achTabEl.classList.add("pulse");
     }
 
-    const elIds = ["n", "r", "e"];
+    const elIds = ["Name", "Reqs", "Effect"];
     elIds.forEach((i) => {
-      const el = document.getElementById(`ach${a.id}_${i}`);
+      const el = document.getElementById(`ach${a.id}${i}`);
       el.classList.remove("unachieved");
 
-      if (i == "e") {
+      if (i == "Effect") {
         el.classList.add("glow");
         el.innerText = a.bonusDesc ?? "⠀";
       }
