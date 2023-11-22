@@ -1,11 +1,5 @@
 function getAffects(ps) {
-  return ps.map((pid) => producers.filter((p) => p.id == pid)[0]);
-}
-
-function getReveal(s, a = 2) {
-  return s.every((p) => {
-    return p.amount.gte(a);
-  });
+  return ps.map((pid) => getProducer(pid));
 }
 
 const rawUpgrades = [
@@ -25,9 +19,6 @@ const rawUpgrades = [
         p.producesFirst = p.producesFirst.mul(2);
       });
     },
-    reveal: function () {
-      return getReveal(this.affects());
-    },
   },
   {
     tab: 1,
@@ -45,9 +36,6 @@ const rawUpgrades = [
         p.costScale -= 0.06;
       });
     },
-    reveal: function () {
-      return getReveal(this.affects());
-    },
   },
   {
     tab: 1,
@@ -64,9 +52,6 @@ const rawUpgrades = [
       this.affects().forEach((p) => {
         p.costScale -= 0.04;
       });
-    },
-    reveal: function () {
-      return getReveal(this.affects(), 5);
     },
   },
   {
@@ -106,9 +91,6 @@ const rawUpgrades = [
         p.producesFirst = p.producesFirst.mul(3);
       });
     },
-    reveal: function () {
-      return getReveal(getAffects(["t1_p4"]));
-    },
   },
   {
     tab: 1,
@@ -127,8 +109,5 @@ const rawUpgrades = [
       });
     },
     bonusAmountEffect: true,
-    reveal: function () {
-      return getReveal(getAffects(["t1_p5"]), 1);
-    },
   },
 ];

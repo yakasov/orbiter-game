@@ -159,3 +159,11 @@ function resetSave() {
     location.reload();
   }
 }
+
+function getProducer(pid) {
+  return producers.filter((p) => p.id == pid)[0];
+}
+
+function getUpgrade(uid) {
+  return upgrades.filter((u) => u.id == uid)[0];
+}

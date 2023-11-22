@@ -9,7 +9,13 @@ class GameLoop {
     this.ignoreMessage = "Cannot read properties of undefined (reading 'bind')";
   }
 
+  firstRun() {
+    var firstProducerGroup = document.getElementById("t1_p1Group");
+    firstProducerGroup.classList.remove("hidden");
+  }
+
   main() {
+    this.firstRun();
     setInterval(() => {
       try {
         // Run game updates

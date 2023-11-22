@@ -7,9 +7,6 @@ const rawProducers = [
     costStart: 10,
     costScale: 1.05,
     produces: 1,
-    reveal: function () {
-      return true;
-    },
     element: {
       name: "H",
     },
@@ -22,9 +19,6 @@ const rawProducers = [
     costStart: 150,
     costScale: 1.09,
     produces: 10,
-    reveal: function () {
-      return gl.ec.balance.gte(75);
-    },
     element: {
       name: "He",
     },
@@ -37,9 +31,6 @@ const rawProducers = [
     costStart: 3000,
     costScale: 1.05,
     produces: 125,
-    reveal: function () {
-      return gl.gm.producing.gte(50);
-    },
     element: {
       name: "Li",
     },
@@ -53,9 +44,6 @@ const rawProducers = [
     costStart: 20000,
     costScale: 1.05,
     produces: 750,
-    reveal: function () {
-      return gl.ec.balance.gte(10000);
-    },
     element: {
       name: "Be",
     },
@@ -68,9 +56,6 @@ const rawProducers = [
     costStart: 1.5e5,
     costScale: 1.03,
     produces: 3500,
-    reveal: function () {
-      return gl.ec.balance.gte(50000);
-    },
     element: {
       name: "B",
     },

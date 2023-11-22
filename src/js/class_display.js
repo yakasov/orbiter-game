@@ -19,14 +19,14 @@ class Display {
 
   updateProducerDisplays(p) {
     const elAmount = document.getElementById(`${p.id}Amount`);
-    const elBuy = document.getElementById(`${p.id}Button`);
+    const elBuy = document.getElementById(`${p.id}Buy`);
     const elGroup = document.getElementById(`${p.id}Group`);
     const elProducing = document.getElementById(`${p.id}Producing`);
     const elElementAmount = document.getElementById(`${p.id}ElementAmount`);
     const elElementDesc = document.getElementById(`${p.id}ElementDesc`);
 
     if (elGroup) {
-      if (elGroup.classList.contains("hidden") && p.reveal()) {
+      if (elGroup.classList.contains("hidden") && this.showProducer(p)) {
         elGroup.classList.remove("hidden");
         elGroup.classList.add("fade-in");
         p.revealTime = Date.now() / 1000;
@@ -74,10 +74,10 @@ class Display {
 
   updateUpgradeDisplays(u) {
     const elGroup = document.getElementById(`${u.id}Group`);
-    const elBuy = document.getElementById(`${u.id}Button`);
+    const elBuy = document.getElementById(`${u.id}Buy`);
 
     if (elGroup) {
-      if (elGroup.classList.contains("hidden") && u.reveal()) {
+      if (elGroup.classList.contains("hidden") && this.showUpgrade(u)) {
         elGroup.classList.remove("hidden");
         elGroup.classList.add("fade-in");
         u.revealTime = Date.now() / 1000;
@@ -96,6 +96,31 @@ class Display {
       elBuy.classList.add("disabled");
       elBuy.setAttribute("disabled", true);
     }
+  }
+
+  showProducer(p) {
+    // Return true if the previous producer has been bought.
+    return producers[
+      (producers.indexOf(p) + producers.length - 1) % producers.length
+    ].amount.gte(1);
+  }
+
+  showUpgrade(u) {
+    /* 
+    Return true if the aligned producer has been bought.
+    If more than one upgrade is aligned to a producer,
+    return true if:
+    - it's also the first upgrade or
+    - it's not the first upgrade but the previous has been bought. 
+    */
+    var alignedUpgrades = upgrades.filter((anyU) => anyU.align == u.align);
+    return (
+      getProducer(u.align).amount.gte(1) &&
+      (alignedUpgrades.length > 1
+        ? alignedUpgrades.indexOf(u) == 0 ||
+          upgrades[alignedUpgrades.indexOf(u) - 1].bought
+        : true)
+    );
   }
 
   updateLoop() {
