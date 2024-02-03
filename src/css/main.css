@@ -104,6 +104,10 @@ button {
   line-height: 1.8em;
 }
 
+.rtl {
+  direction: rtl;
+}
+
 .amount {
   font-style: italic;
 }
@@ -142,7 +146,28 @@ button {
 .unachieved {
   font-style: italic;
   color: #777;
-  text-decoration: line-through;
+}
+
+.dashed {
+  outline-style: dashed;
+}
+
+.solid {
+  outline-style: solid;
+}
+
+.achievement {
+  padding: 3% 0 3% 0;
+  margin-bottom: 20px;
+}
+
+.achievement:hover .hidden {
+  visibility: visible;
+  display: block;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .no-strikethrough {

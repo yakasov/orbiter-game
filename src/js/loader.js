@@ -41,7 +41,6 @@ class Upgrade {
     id,
     name,
     desc,
-    subdesc,
     cost,
     affects,
     bonus,
@@ -55,7 +54,6 @@ class Upgrade {
     this.affects = affects;
     this.name = name;
     this.desc = desc;
-    this.subdesc = subdesc;
 
     this.bought = false;
     this.applied = false;
@@ -125,17 +123,17 @@ var loadedGame = false;
     switch (i.id) {
       case "achievements":
         return `
-        <div class="group center" id="achievements_names">
+        <div class="group center" id="achievements_col1">
           <h2>⠀</h2>
-          <h3>Name</h3>
+        
         </div>
-        <div class="group center" id="achievements_reqs">
+        <div class="group center" id="achievements_col2">
           <h2>Achievements</h2>
-          <h3>Requirements</h3>
+          
         </div>
-        <div class="group center" id="achievements_effs">
+        <div class="group center" id="achievements_col3">
           <h2>⠀</h2>
-          <h3>Effects</h3>
+        
         </div>`;
       case "settings":
         return `
@@ -172,7 +170,6 @@ var loadedGame = false;
       u.id,
       u.name,
       u.desc,
-      u.subdesc,
       u.cost,
       u.affects,
       u.bonus,
@@ -262,32 +259,27 @@ var loadedGame = false;
       </button>
       <p class="no-margin">${u.name}</p>
     </div>
-    <div class="stat-group">
-      <p class="no-margin amount grey glow left" id="${u.id}Producing">
+    <div class="stat-group rtl">
+      <p class="no-margin amount grey glow" id="${u.id}Amount">
           ${u.desc}
-      </p>
-      <p class="no-margin amount grey glow right" id="${u.id}Amount">
-          ${u.subdesc}
       </p>
     </div>
   </div>
   `;
   });
 
-  const achNames = document.getElementById("achievements_names");
-  const achReqs = document.getElementById("achievements_reqs");
-  const achEffs = document.getElementById("achievements_effs");
-  rawAchievements.forEach((a) => {
-    achNames.innerHTML += `
-  <p id="ach${a.id}Name" class="unachieved">${a.id}: ${a.name}</p>
-  `;
-    achReqs.innerHTML += `
-  <p id="ach${a.id}Reqs" class="unachieved">${a.reqs}</p>
-  `;
-    achEffs.innerHTML += `
-  <p id="ach${a.id}Effect" class="unachieved no-strikethrough">${
-      a.bonusDesc ? "?" : "⠀"
-    }</p>
+  const achCols = [
+    document.getElementById("achievements_col1"),
+    document.getElementById("achievements_col2"),
+    document.getElementById("achievements_col3"),
+  ];
+  rawAchievements.forEach((a, i) => {
+    achCols[i % 3].innerHTML += `
+    <div id="ach${a.id}Name" class="unachieved dashed achievement">
+      <p class="bold">${a.name}</p>
+      <p class="amount hidden">${a.reqs}</p>
+      <p class="amount hidden glow">${a.bonusDesc ?? ""}</p>
+    </div>
   `;
   });
 
