@@ -5,7 +5,7 @@ const rawProducers = [
     name: "Hydrogen Gatherer",
     plural: "gatherers",
     costStart: 10,
-    costScale: 1.05,
+    costScale: 1.3,
     produces: 1,
     element: {
       name: "H",
@@ -17,8 +17,8 @@ const rawProducers = [
     name: "Helium Hunter",
     plural: "hunters",
     costStart: 150,
-    costScale: 1.09,
-    produces: 10,
+    costScale: 1.4,
+    produces: 15,
     element: {
       name: "He",
     },
@@ -29,8 +29,8 @@ const rawProducers = [
     name: "Lithium Miner",
     plural: "miners",
     costStart: 3000,
-    costScale: 1.05,
-    produces: 125,
+    costScale: 1.4,
+    produces: 150,
     element: {
       name: "Li",
     },
@@ -42,7 +42,7 @@ const rawProducers = [
     name: "Beryllium Forager",
     plural: "foragers",
     costStart: 20000,
-    costScale: 1.05,
+    costScale: 1.3,
     produces: 750,
     element: {
       name: "Be",
@@ -54,7 +54,7 @@ const rawProducers = [
     name: "Boron Borer",
     plural: "borers",
     costStart: 1.5e5,
-    costScale: 1.03,
+    costScale: 1.2,
     produces: 3500,
     element: {
       name: "B",

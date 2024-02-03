@@ -24,7 +24,7 @@ const rawUpgrades = [
     id: "t1_u2",
     align: "t1_p2",
     name: "Hunter Bow Strengthening",
-    desc: "-0.06 Helium Hunters cost scale",
+    desc: "Decrease Helium Hunters cost scaling",
     cost: 1500,
     affects: function () {
       return getAffects(["t1_p2"]);
@@ -40,7 +40,7 @@ const rawUpgrades = [
     id: "t1_u3",
     align: "t1_p2",
     name: "Period 1 Discounts",
-    desc: "-0.04 Gatherer + Hunter cost scale",
+    desc: "Decrease Gatherer and Hunter cost scaling further",
     cost: 5000,
     affects: function () {
       return getAffects(["t1_p1", "t1_p2"]);

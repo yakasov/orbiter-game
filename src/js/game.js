@@ -25,10 +25,11 @@ class Game {
     var tempCostNow = new Decimal(0);
 
     while (gl.ec.balance.gte(tempCostNow)) {
-      tempCostNow = p.amount
-        .add(1)
-        .mul(p.costStart)
-        .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
+      tempCostNow = p.amount.add(
+        new Decimal(1)
+          .mul(p.costStart)
+          .mul(Math.pow(p.costScale, p.amount.toFixed(0)))
+      );
 
       if (gl.ec.balance.sub(tempCostNow).gte(0)) {
         p.amount = p.amount.plus(1);
@@ -57,10 +58,12 @@ class Game {
   updateGameInternals(p) {
     this.upgradeBoosts.forEach((u) => u.bonus());
 
-    p.costNow = p.amount
-      .add(1)
-      .mul(p.costStart)
-      .mul(Math.pow(p.costScale, p.amount.toFixed(0)));
+    p.costNow = p.amount.add(
+      new Decimal(1)
+        .mul(p.costStart)
+        .mul(Math.pow(p.costScale, p.amount.toFixed(0)))
+    );
+    console.log(Math.pow(p.costScale, p.amount.toFixed(0)));
     // currently: (n + 1) * cst * (csc ^ costScale)
     // prices   : 10.00, 21.00, 33.08, 46.31, 60.78
     p.producesNow = p.producesFirst.mul(p.amount.add(p.bonusAmount));
