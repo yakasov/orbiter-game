@@ -22,7 +22,7 @@ const rawUpgrades = [
   {
     tab: 1,
     id: "t1_u2",
-    align: "t1_p2",
+    align: "t1_p1",
     name: "Hunter Bow Strengthening",
     desc: "Decrease Helium Hunters cost scaling",
     cost: 1500,
@@ -38,7 +38,7 @@ const rawUpgrades = [
   {
     tab: 1,
     id: "t1_u3",
-    align: "t1_p2",
+    align: "t1_p1",
     name: "Period 1 Discounts",
     desc: "Decrease Gatherer and Hunter cost scaling further",
     cost: 5000,
@@ -54,7 +54,7 @@ const rawUpgrades = [
   {
     tab: 1,
     id: "t1_u4",
-    align: "t1_p3",
+    align: "t1_p2",
     name: "Gatherer Energizing",
     desc: "Lithium boosts Gatherer amount (2Li => H)",
     cost: 50000,
@@ -74,7 +74,7 @@ const rawUpgrades = [
   {
     tab: 1,
     id: "t1_u5",
-    align: "t1_p4",
+    align: "t1_p2",
     name: "Miner Reinforcements",
     desc: "3x Lithum Miner speed",
     cost: 50000,
@@ -90,7 +90,7 @@ const rawUpgrades = [
   {
     tab: 1,
     id: "t1_u6",
-    align: "t1_p5",
+    align: "t1_p2",
     name: "Helium Retention",
     desc: "Boron boosts Hunter amount (2B => He)",
     cost: 1e6,

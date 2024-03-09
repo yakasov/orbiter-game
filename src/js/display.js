@@ -73,8 +73,8 @@ class Display {
   }
 
   updateUpgradeDisplays(u) {
-    const elGroup = document.getElementById(`${u.id}Group`);
-    const elBuy = document.getElementById(`${u.id}Buy`);
+    const elGroup = document.getElementById(`${u.id}`);
+    const elBuy = document.getElementById(`${u.id}`);
 
     if (elGroup) {
       if (elGroup.classList.contains("hidden") && this.showUpgrade(u)) {
@@ -92,8 +92,10 @@ class Display {
     }
 
     if (elBuy && u.bought) {
-      elBuy.innerText = "Bought!";
+      elBuy.querySelectorAll(".amount")[1].innerText = "Bought!";
       elBuy.classList.add("disabled");
+      elBuy.classList.add("solid");
+      elBuy.classList.remove("dashed");
       elBuy.setAttribute("disabled", true);
     }
   }

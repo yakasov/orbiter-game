@@ -72,7 +72,7 @@ button {
 .content-group {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .left {
@@ -223,4 +223,12 @@ button {
 
 hr {
   margin-top: 32px;
+}
+
+.upgrade {
+  margin: 12px;
+  flex: 1 0 2%;
+  /* max-width: 256px; */
+  /* max-width: 33%;
+  width: 33%; */
 }

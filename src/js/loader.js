@@ -245,27 +245,28 @@ var loadedGame = false;
   upgrades.forEach((u, i) => {
     const rightGroup = document.getElementById(`${u.align}Group`);
 
-    if (rightGroup.children.length == 2) {
-      const ghostGroup = rightGroup.children[0].cloneNode();
-      rightGroup.insertAdjacentElement("beforeEnd", ghostGroup);
+    // if (rightGroup.children.length == 2) {
+    //   const ghostGroup = rightGroup.children[0].cloneNode();
+    //   rightGroup.insertAdjacentElement("beforeEnd", ghostGroup);
+    // }
+
+    console.log(u.id);
+    if (i % 3 == 0) {
+      rightGroup.innerHTML += `
+      <div id="upgrade_group${Math.floor(i / 3)}" class="content-group center">
+      </div>
+      `;
     }
 
-    rightGroup.innerHTML += `
-  <!-- ${u.name}s -->
-  <div id="${u.id}Group" class="hidden right">
-    <div class="subgroup">
-      <button id="${u.id}Buy" onclick="gl.gm.buyUpgrade(${i})">
-          Buy Upgrade for ${f(u.cost)}
-      </button>
-      <p class="no-margin">${u.name}</p>
-    </div>
-    <div class="stat-group rtl">
-      <p class="no-margin amount grey glow" id="${u.id}Amount">
-          ${u.desc}
-      </p>
-    </div>
-  </div>
-  `;
+    const row = document.getElementById(`upgrade_group${Math.floor(i / 3)}`);
+    row.innerHTML += `
+      <div id="${
+        u.id
+      }" class="hidden upgrade dashed" onclick="gl.gm.buyUpgrade(${i})">
+        <p class="bold">${u.name}</p>
+        <p class="amount glow">${u.desc}</p>
+        <p class="amount">${f(u.cost)}</p>
+      </div>`;
   });
 
   const achCols = [

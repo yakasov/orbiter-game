@@ -63,7 +63,6 @@ class Game {
         .mul(p.costStart)
         .mul(Math.pow(p.costScale, p.amount.toFixed(0)))
     );
-    console.log(Math.pow(p.costScale, p.amount.toFixed(0)));
     // currently: (n + 1) * cst * (csc ^ costScale)
     // prices   : 10.00, 21.00, 33.08, 46.31, 60.78
     p.producesNow = p.producesFirst.mul(p.amount.add(p.bonusAmount));
