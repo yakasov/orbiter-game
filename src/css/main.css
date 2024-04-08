@@ -72,17 +72,18 @@ button {
 .content-group {
   display: flex;
   flex-direction: row;
-  /* flex-wrap: wrap; */
 }
 
 .left {
-  width: 47%;
+  max-width: 40%;
+  width: 40%;
   margin-right: 3%;
   text-align: left;
 }
 
 .right {
-  width: 47%;
+  max-width: 40%;
+  width: 40%;
   margin-left: 3%;
   text-align: right;
 }
@@ -228,7 +229,13 @@ hr {
 .upgrade {
   margin: 12px;
   flex: 1 0 2%;
-  /* max-width: 256px; */
-  /* max-width: 33%;
-  width: 33%; */
+}
+
+.upgrade-group {
+  max-width: 60%;
+}
+
+.slim-width {
+  display: inline-block;
+  width: 90%;
 }

@@ -245,15 +245,11 @@ var loadedGame = false;
   upgrades.forEach((u, i) => {
     const rightGroup = document.getElementById(`${u.align}Group`);
 
-    // if (rightGroup.children.length == 2) {
-    //   const ghostGroup = rightGroup.children[0].cloneNode();
-    //   rightGroup.insertAdjacentElement("beforeEnd", ghostGroup);
-    // }
-
-    console.log(u.id);
     if (i % 3 == 0) {
       rightGroup.innerHTML += `
-      <div id="upgrade_group${Math.floor(i / 3)}" class="content-group center">
+      <div id="upgrade_group${Math.floor(
+        i / 3
+      )}" class="upgrade-group content-group center">
       </div>
       `;
     }
@@ -263,9 +259,11 @@ var loadedGame = false;
       <div id="${
         u.id
       }" class="hidden upgrade dashed" onclick="gl.gm.buyUpgrade(${i})">
-        <p class="bold">${u.name}</p>
-        <p class="amount glow">${u.desc}</p>
-        <p class="amount">${f(u.cost)}</p>
+        <span class="slim-width">
+          <p class="bold">${u.name}</p>
+          <p class="amount glow">${u.desc}</p>
+          <p class="amount">${f(u.cost)}</p>
+        </span>
       </div>`;
   });
 
