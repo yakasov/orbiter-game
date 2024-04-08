@@ -31,7 +31,7 @@ const rawUpgrades = [
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.costScale -= 0.06;
+        p.costScale -= 0.07;
       });
     },
   },
@@ -47,7 +47,7 @@ const rawUpgrades = [
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.costScale -= 0.04;
+        p.costScale -= 0.05;
       });
     },
   },
@@ -56,14 +56,14 @@ const rawUpgrades = [
     id: "t1_u4",
     align: "t1_p2",
     name: "Gatherer Energizing",
-    desc: "Lithium boosts Gatherer amount (2Li => H)",
+    desc: "Lithium boosts Gatherer amount (4Li => 3H)",
     cost: 50000,
     affects: function () {
       return getAffects(["t1_p1"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.bonusAmount = getAffects(["t1_p3"])[0].elementAmount.mul(0.5);
+        p.bonusAmount = getAffects(["t1_p3"])[0].elementAmount.mul(0.75);
       });
     },
     bonusAmountEffect: true,
@@ -92,14 +92,14 @@ const rawUpgrades = [
     id: "t1_u6",
     align: "t1_p2",
     name: "Helium Retention",
-    desc: "Boron boosts Hunter amount (2B => He)",
+    desc: "Boron boosts Hunter amount (4B => 3He)",
     cost: 1e6,
     affects: function () {
       return getAffects(["t1_p2"]);
     },
     bonus: function () {
       this.affects().forEach((p) => {
-        p.bonusAmount = getAffects(["t1_p5"])[0].elementAmount.mul(0.5);
+        p.bonusAmount = getAffects(["t1_p5"])[0].elementAmount.mul(0.75);
       });
     },
     bonusAmountEffect: true,
